@@ -1,6 +1,9 @@
 const permissionCheck = function(permission, role) {
     let { allow, deny } = permission;
 
+    // console.log('allow', allow);
+    // console.log('deny', deny);
+
     if (allow === undefined) allow = true;
     if (deny === undefined) deny = false;
 

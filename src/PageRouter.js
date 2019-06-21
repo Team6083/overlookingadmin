@@ -3,9 +3,16 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import routes from './routes'
 import { connect } from 'react-redux'
 import permissionCheck from './composment/auth/permissionCheck'
+import roles from './constant/userRoles'
 
 class PageRouter extends Component {
     render() {
+        
+        let role = roles.UnAuth;
+        if(this.props.auth.uid != undefined){
+            role = roles.Student;
+        }
+
         return (
             <Switch>
                 {routes.map((route, i) => {
@@ -17,7 +24,7 @@ class PageRouter extends Component {
                             exact={exact}
                             render={(routeProps) => {
                                 if (permission) {
-                                    if (!permissionCheck(permission)) {
+                                    if (!permissionCheck(permission, role)) {
                                         if (permission.redirect) {
                                             return (<Redirect to={permission.redirect} />);
                                         } else {
@@ -39,7 +46,6 @@ class PageRouter extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state.firebase);
     return {
         auth: state.firebase.auth
     }
