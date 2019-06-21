@@ -1,5 +1,6 @@
 import Home from './composment/pages/Home';
 import SignIn from './composment/auth/Signin';
+import SignUp from './composment/auth/Signup';
 
 import roles from './constant/userRoles';
 
@@ -18,6 +19,16 @@ const routes = [
         path: '/login',
         component: SignIn,
         name: 'Sign in',
+        permission: {
+            deny: true,
+            allow: [roles.UnAuth],
+            redirect: '/'
+        }
+    },
+    {
+        path: '/signup',
+        component: SignUp,
+        name: 'Sign up',
         permission: {
             deny: true,
             allow: [roles.UnAuth],

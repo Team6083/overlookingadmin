@@ -7,9 +7,9 @@ import roles from './constant/userRoles'
 
 class PageRouter extends Component {
     render() {
-        
+
         let role = roles.UnAuth;
-        if(this.props.auth.uid != undefined){
+        if (this.props.auth.uid != undefined) {
             role = roles.Student;
         }
 

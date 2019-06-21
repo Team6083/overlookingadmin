@@ -6,7 +6,7 @@ import roles from '../../../constant/userRoles'
 import permissionCheck from '../../auth/permissionCheck';
 
 const Links = (props) => {
-    const { links, auth } = props
+    const { links, auth, profile } = props
     const userLogined = auth.uid ? true : false
 
     const linkList = links.map((route, i) => {
@@ -31,11 +31,26 @@ const Links = (props) => {
         }
     })
 
+    const getInitals = () => {
+        let initals = "";
+        if (profile.firstName) {
+            initals += profile.firstName[0];
+        }
+        if (profile.lastName) {
+            initals += profile.lastName[0];
+        }
+        return initals;
+    }
+
     return (
         <ul className="right">
             {linkList}
             {userLogined ? <li><a onClick={props.signOut}>Sign Out</a></li> : null}
-            {userLogined ? <li><NavLink to='/' className="btn btn-floating pink lighten-1">KH</NavLink></li> : null}
+            {userLogined ? <li>
+                <NavLink to='/' className="btn btn-floating pink lighten-1">
+                    {getInitals()}
+                </NavLink>
+            </li> : null}
         </ul>
     )
 }
@@ -48,7 +63,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        profile: state.firebase.profile
     }
 }
 

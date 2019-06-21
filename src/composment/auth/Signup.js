@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { signUp } from '../../store/actions/authActions'
 
 class Signup extends Component {
     state = {
@@ -8,15 +10,15 @@ class Signup extends Component {
         lastName: ''
     }
 
-    handleChange = (e)=>{
+    handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
         })
     }
 
-    handleSubmit = (e)=>{
+    handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        this.props.signUp(this.state);
     }
 
     render() {
@@ -26,19 +28,19 @@ class Signup extends Component {
                     <h5 className="grey-text text-darken-3">Sign Up</h5>
                     <div className="input-field">
                         <label htmlFor="firstName">First Name</label>
-                        <input type="text" id="firstName" onChange={this.handleChange}/>
+                        <input type="text" id="firstName" onChange={this.handleChange} />
                     </div>
                     <div className="input-field">
                         <label htmlFor="lastName">Last Name</label>
-                        <input type="text" id="lastName" onChange={this.handleChange}/>
+                        <input type="text" id="lastName" onChange={this.handleChange} />
                     </div>
                     <div className="input-field">
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange}/>
+                        <input type="email" id="email" onChange={this.handleChange} />
                     </div>
                     <div className="input-field">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange}/>
+                        <input type="password" id="password" onChange={this.handleChange} />
                     </div>
                     <div className="input-field">
                         <button className="btn pink lighten-1 z-depth-0">Sign Up</button>
@@ -49,4 +51,10 @@ class Signup extends Component {
     }
 }
 
-export default Signup
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signUp: (newUser) => dispatch(signUp(newUser))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Signup)

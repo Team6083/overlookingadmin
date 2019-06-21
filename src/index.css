@@ -18,8 +18,12 @@ form{
   margin-top: 60px;
 }
 
-form button, form h5{
-  margin: 20px 0px;
+form h5{
+  margin: 20px;
+}
+
+form button{
+  margin: 20px .2rem;
 }
 
 input[type=text]:not(.browser-default):focus:not([readonly]),

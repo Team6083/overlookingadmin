@@ -35,9 +35,21 @@ export const signUp = (newUser) => {
             return firestore.collection('users').doc(resp.user.uid).set({
                 firstName: newUser.firstName,
                 lastName: newUser.lastName
-            }).then(() => {
+            }, { merge: true }).then(() => {
                 dispatch({ type: 'SIGNUP_SUCCESS' });
             }).catch((err) => dispatch({ type: 'SIGNUP_ERROR', err }));
         })
     }
+}
+
+export const signInGoogle = () => {
+    return (dispatch, getState, { getFirebase }) => {
+        const firebase = getFirebase();
+
+        const provider = new firebase.auth.GoogleAuthProvider();
+        console.log(provider);
+        firebase.auth().signInWithPopup(provider).then(function (result) {
+            dispatch({ type: 'LOGIN_SUCCESS' })
+        }).catch((err) => dispatch({ type: 'LOGIN_ERROR', err }));
+    };
 }
