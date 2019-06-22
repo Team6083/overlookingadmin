@@ -10,7 +10,7 @@ const Links = (props) => {
     const userLogined = auth.uid ? true : false
 
     const linkList = links.map((route, i) => {
-        const { path, name, permission } = route;
+        const { path, name, permission, hideOnNav } = route;
         const renderLink = () => {
             return (
                 <li key={i}>
@@ -23,6 +23,8 @@ const Links = (props) => {
         if (userLogined) {
             role = roles.Student;
         }
+
+        if(hideOnNav === true) return null;
 
         if (permission) {
             return permissionCheck(permission, role) ? renderLink() : null;
@@ -47,7 +49,7 @@ const Links = (props) => {
             {linkList}
             {userLogined ? <li><a onClick={props.signOut}>Sign Out</a></li> : null}
             {userLogined ? <li>
-                <NavLink to='/' className="btn btn-floating pink lighten-1">
+                <NavLink to='/profile' className="btn btn-floating pink lighten-1">
                     {getInitals()}
                 </NavLink>
             </li> : null}

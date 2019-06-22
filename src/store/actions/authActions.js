@@ -42,14 +42,16 @@ export const signUp = (newUser) => {
     }
 }
 
-export const signInGoogle = () => {
+export const linkGoogle = () => {
     return (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase();
 
         const provider = new firebase.auth.GoogleAuthProvider();
-        console.log(provider);
-        firebase.auth().signInWithPopup(provider).then(function (result) {
-            dispatch({ type: 'LOGIN_SUCCESS' })
-        }).catch((err) => dispatch({ type: 'LOGIN_ERROR', err }));
+        firebase.auth().currentUser.linkWithPopup(provider).then(function () {
+            dispatch({type: 'LINK_SUCCESS', provider});
+        }).catch(function (err) {
+            dispatch({type: 'LINK_ERROR', provider, err});
+        });
     };
 }
+

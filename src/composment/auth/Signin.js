@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
-import { signIn, signInGoogle } from '../../store/actions/authActions'
+import { signIn } from '../../store/actions/authActions'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import uiConfig from '../../config/fbAuthUIConfig';
 
@@ -61,8 +61,7 @@ class Signin extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signIn: (creds) => dispatch(signIn(creds)),
-        googleSignIn: () => dispatch(signInGoogle())
+        signIn: (creds) => dispatch(signIn(creds))
     }
 }
 

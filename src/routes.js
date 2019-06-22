@@ -1,6 +1,7 @@
 import Home from './composment/pages/Home';
 import SignIn from './composment/auth/Signin';
 import SignUp from './composment/auth/Signup';
+import UserProfile from './composment/auth/UserProfile';
 
 import roles from './constant/userRoles';
 
@@ -34,6 +35,16 @@ const routes = [
             allow: [roles.UnAuth],
             redirect: '/'
         }
+    },
+    {
+        path: '/profile',
+        component: UserProfile,
+        name: 'User Profile',
+        permission: {
+            allow: true,
+            deny: [roles.UnAuth]
+        },
+        hideOnNav: true
     }
 ];
 
