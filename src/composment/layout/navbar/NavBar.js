@@ -4,11 +4,12 @@ import Links from './Links'
 
 const NavBar = (props) => {
     return (
-        <nav className="nav-wrapper grey darken-3">
-            <div className="container">
-                <Link to='/' className='brand-logo'>Overlooking Admin</Link>
-                <Links links={props.links} />
-            </div>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <Link to='/' className='navbar-brand'>Overlooking Admin</Link>
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain">
+                <span className="navbar-toggler-icon"></span>
+            </button>
+            <Links links={props.links} />
         </nav>
     )
 }

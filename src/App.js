@@ -8,9 +8,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <div id="mainNavWarpper">
-          <NavBar links={routes} />
-        </div>
+        <div className="mb-3"><NavBar links={routes} /></div>
         <PageRouter />
       </div>
     </BrowserRouter>

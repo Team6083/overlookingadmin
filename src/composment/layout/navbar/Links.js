@@ -13,8 +13,8 @@ const Links = (props) => {
         const { path, name, permission, hideOnNav } = route;
         const renderLink = () => {
             return (
-                <li key={i}>
-                    <NavLink to={path}>{name}</NavLink>
+                <li className="nav-item" key={i}>
+                    <NavLink className="nav-link" to={path}>{name}</NavLink>
                 </li>
             )
         }
@@ -24,7 +24,7 @@ const Links = (props) => {
             role = roles.Student;
         }
 
-        if(hideOnNav === true) return null;
+        if (hideOnNav === true) return null;
 
         if (permission) {
             return permissionCheck(permission, role) ? renderLink() : null;
@@ -33,27 +33,33 @@ const Links = (props) => {
         }
     })
 
-    const getInitals = () => {
+    const getName = () => {
         let initals = "";
         if (profile.firstName) {
-            initals += profile.firstName[0];
+            initals += profile.firstName;
         }
         if (profile.lastName) {
-            initals += profile.lastName[0];
+            initals += profile.lastName;
         }
         return initals;
     }
 
     return (
-        <ul className="right">
-            {linkList}
-            {userLogined ? <li><a onClick={props.signOut}>Sign Out</a></li> : null}
-            {userLogined ? <li>
-                <NavLink to='/profile' className="btn btn-floating pink lighten-1">
-                    {getInitals()}
-                </NavLink>
-            </li> : null}
-        </ul>
+        <div className="collapse navbar-collapse" id="navbarMain">
+            <ul className="navbar-nav mr-auto">
+                {linkList}
+            </ul>
+            <div id="userBar">
+                <span className="navbar-text text-dark mr-md-2" id="navUser">
+                    <NavLink to="/profile">
+                        <span className="badge badge-pill badge-primary" style={{fontSize: '90%'}}>
+                            {getName()}
+                        </span>
+                    </NavLink>
+                </span>
+            </div>
+            <button className="btn btn-outline-dark" onClick={props.signOut}>Sign out</button>
+        </div >
     )
 }
 

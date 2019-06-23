@@ -30,27 +30,27 @@ class Signin extends Component {
         const { authError, firebaseInstance } = this.props;
         return (
             <div className="container">
-                <div className="row white">
-                    <div className="col s12 m6">
+                <div className="row">
+                    <div className="col-12 col-md-6">
                         <form onSubmit={this.handleSubmit}>
-                            <h5 className="grey-text text-darken-3">Sign In</h5>
-                            <div className="input-field">
+                            <h3>Sign In</h3>
+
+                            <div className="text-danger text-center mt-md-2">
+                                {authError ? <p className="mb-2 mt-2"><i class="material-icons">error_outline</i>{authError}</p> : null}
+                            </div>
+
+                            <div className="form-group">
                                 <label htmlFor="email">Email</label>
-                                <input type="email" id="email" onChange={this.handleChange} />
+                                <input className="form-control" type="email" id="email" onChange={this.handleChange} />
                             </div>
-                            <div className="input-field">
+                            <div className="form-group">
                                 <label htmlFor="password">Password</label>
-                                <input type="password" id="password" onChange={this.handleChange} />
+                                <input className="form-control" type="password" id="password" onChange={this.handleChange} />
                             </div>
-                            <div className="input-field">
-                                <button className="btn pink lighten-1 z-depth-0">Login</button>
-                                <div className="red-text center">
-                                    {authError ? <p><i class="material-icons">error_outline</i>{authError}</p> : null}
-                                </div>
-                            </div>
+                            <button className="btn btn-primary">Login</button>
                         </form>
                     </div>
-                    <div className="col s12 m6">
+                    <div className="col-12 col-md-6">
                         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth(firebaseInstance)} />
                     </div>
                 </div>
