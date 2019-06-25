@@ -1,27 +1,25 @@
 import firebase from 'firebase';
 import firebaseui from 'firebaseui';
 import store from '../store';
-import { onSignUpSuccess } from '../store/actions/authActions'
+import { authUISignUp } from '../store/actions/authActions'
 
 const uiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-      const user = authResult.user;
       const isNewUser = authResult.additionalUserInfo.isNewUser;
 
       if (isNewUser) {
-        const firestore = firebase.firetore(store.getState().firebase);
-        onSignUpSuccess(firestore, user.uid, {});
+        store.dispatch(authUISignUp(authResult));
       }
 
       store.dispatch({ type: 'FIREBASE_UI_SUCCESS', authResult });
-      return false;
+      return true;
     },
     signInFailure: function (err) {
       store.dispatch({ type: 'FIREBASE_UI_ERROR', err });
     },
     uiShown: function () {
-
+      store.dispatch({ type: 'FIREBASE_UI_SHOWN' });
     }
   },
   signInFlow: 'popup',
@@ -35,7 +33,7 @@ const uiConfig = {
     },
     firebase.auth.GithubAuthProvider.PROVIDER_ID
   ],
-  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  credentialHelper: firebaseui.auth.CredentialHelper.NONE
 }
 
 export default uiConfig;

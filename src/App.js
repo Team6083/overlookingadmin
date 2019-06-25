@@ -9,7 +9,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <div className="mb-3"><NavBar links={routes} /></div>
-        <PageRouter />
+        <PageRouter routes={routes} />
       </div>
     </BrowserRouter>
   );

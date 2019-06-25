@@ -35,9 +35,12 @@ class Signin extends Component {
                         <form onSubmit={this.handleSubmit}>
                             <h3>Sign In</h3>
 
-                            <div className="text-danger text-center mt-md-2">
-                                {authError ? <p className="mb-2 mt-2"><i class="material-icons">error_outline</i>{authError}</p> : null}
-                            </div>
+                            {authError ?
+                            <blockquote className="blockquote bq-danger">
+                                 <h5 className="bq-title"> <i className="material-icons">error_outline</i> Login Error</h5>
+                                 <p>{authError}</p> 
+                            </blockquote>
+                            : null}
 
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
@@ -51,6 +54,7 @@ class Signin extends Component {
                         </form>
                     </div>
                     <div className="col-12 col-md-6">
+                        <h4 className="text-center">Sign up first to use these login method.</h4>
                         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth(firebaseInstance)} />
                     </div>
                 </div>

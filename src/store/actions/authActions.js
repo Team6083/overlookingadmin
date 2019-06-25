@@ -1,12 +1,13 @@
+import { saveUser } from './userActions';
+
 export const signIn = (credentials) => {
     return (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase();
-
         firebase.auth().signInWithEmailAndPassword(
             credentials.email,
             credentials.password
-        ).then(() => {
-            dispatch({ type: 'LOGIN_SUCCESS' })
+        ).then((resp) => {
+            dispatch({ type: 'LOGIN_SUCCESS' });
         }).catch((err) => dispatch({ type: 'LOGIN_ERROR', err }))
     }
 }
@@ -23,27 +24,35 @@ export const signOut = () => {
     }
 }
 
-export const onSignUpSuccess = (firestore, uid, newUser) => {
-    return firestore.collection('users').doc(uid).set({
-        firstName: newUser.firstName,
-        lastName: newUser.lastName
-    }, { merge: true });
+export const saveNewUser = (uid, newUser) => {
+    return dispatch => {
+        const user = {
+            username: newUser.username,
+            displayName: newUser.displayName,
+            name: newUser.name
+        };
+
+        dispatch(saveUser(user, uid, true));
+    }
 }
 
 export const signUp = (newUser) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firebase = getFirebase();
-        const firestore = getFirestore();
 
         firebase.auth().createUserWithEmailAndPassword(
             newUser.email,
             newUser.password
         ).then((resp) => {
-            return onSignUpSuccess(firestore, resp.user.uid, newUser)
-                .then(() => {
-                    dispatch({ type: 'SIGNUP_SUCCESS' });
-                }).catch((err) => dispatch({ type: 'SIGNUP_ERROR', err }));
-        })
+            dispatch(saveNewUser(resp.user.uid, newUser));
+            dispatch({ type: 'SIGNUP_SUCCESS' });
+        }).catch((err) => dispatch({ type: 'SIGNUP_ERROR', err }));
+    }
+}
+
+export const authUISignUp = (resp) => {
+    return (dispatch, getState, { getFirebase }) => {
+
     }
 }
 

@@ -1,8 +1,7 @@
 import Home from './composment/pages/Home';
 import SignIn from './composment/auth/Signin';
 import SignUp from './composment/auth/Signup';
-import UserProfile from './composment/auth/UserProfile';
-import FormPage from './composment/auth/FormPage';
+import UserProfile from './composment/pages/profile/UserProfile';
 
 import roles from './constant/userRoles';
 
@@ -46,11 +45,6 @@ const routes = [
             deny: [roles.UnAuth]
         },
         hideOnNav: true
-    },
-    {
-        path: '/test',
-        component: FormPage,
-        name: 'FormPage'
     }
 ];
 

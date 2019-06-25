@@ -34,14 +34,7 @@ const Links = (props) => {
     })
 
     const getName = () => {
-        let initals = "";
-        if (profile.firstName) {
-            initals += profile.firstName;
-        }
-        if (profile.lastName) {
-            initals += profile.lastName;
-        }
-        return initals;
+        return profile.name;
     }
 
     return (

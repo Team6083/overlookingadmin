@@ -5,7 +5,7 @@ const initState = {
 const authReducer = (state = initState, action) => {
     switch (action.type) {
         case 'LOGIN_ERROR':
-            console.log('login error');
+            console.log('login error', action.err);
             return {
                 ...state,
                 authError: action.err.message
@@ -46,6 +46,9 @@ const authReducer = (state = initState, action) => {
                 ...state,
                 authError: action.err.message
             };
+        case 'FIREBASE_UI_SHOWN':
+            console.log('Firebase ui shown');
+            return state;
         default:
             return state;
     }

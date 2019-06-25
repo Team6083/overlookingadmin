@@ -6,8 +6,9 @@ class Signup extends Component {
     state = {
         email: '',
         password: '',
-        firstName: '',
-        lastName: ''
+        username: '',
+        displayName: '',
+        name: ''
     }
 
     handleChange = (e) => {
@@ -28,12 +29,17 @@ class Signup extends Component {
                     <h3>Sign Up</h3>
 
                     <div className="form-group">
-                        <label htmlFor="firstName">First Name</label>
-                        <input className="form-control" type="text" id="firstName" onChange={this.handleChange} />
+                        <label htmlFor="username">Username</label>
+                        <input className="form-control" type="text" id="username" onChange={this.handleChange} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="lastName">Last Name</label>
-                        <input className="form-control" type="text" id="lastName" onChange={this.handleChange} />
+                        <label htmlFor="displayName">DisplayName</label>
+                        <input className="form-control" type="text" id="displayName" onChange={this.handleChange} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="name">Name</label>
+                        <input type="text" className="form-control" id="name" onChange={this.handleChange} />
+                        <small className="form-text text-muted">Please use your realname (Chinese) for this field.</small>
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
