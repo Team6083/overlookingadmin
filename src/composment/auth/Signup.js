@@ -24,7 +24,7 @@ class Signup extends Component {
     render() {
         return (
             <div className="container">
-                <form onSubmit={this.handleSubmit} className="white">
+                <form onSubmit={this.handleSubmit}>
                     <h3>Sign Up</h3>
 
                     <div className="form-group">

@@ -1,5 +1,3 @@
-import { access } from "fs";
-
 const initState = {
     authError: null
 }
@@ -32,6 +30,18 @@ const authReducer = (state = initState, action) => {
             };
         case 'SIGNUP_ERROR':
             console.log('Signup error', action.err);
+            return {
+                ...state,
+                authError: action.err.message
+            };
+        case 'FIREBASE_UI_SUCCESS':
+            console.log('Firebase ui success', action.authResult);
+            return {
+                ...state,
+                authError: null
+            }
+        case 'FIREBASE_UI_ERROR':
+            console.log('Firebase ui error', action.err);
             return {
                 ...state,
                 authError: action.err.message

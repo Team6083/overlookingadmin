@@ -23,6 +23,13 @@ export const signOut = () => {
     }
 }
 
+export const onSignUpSuccess = (firestore, uid, newUser) => {
+    return firestore.collection('users').doc(uid).set({
+        firstName: newUser.firstName,
+        lastName: newUser.lastName
+    }, { merge: true });
+}
+
 export const signUp = (newUser) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firebase = getFirebase();
@@ -32,12 +39,10 @@ export const signUp = (newUser) => {
             newUser.email,
             newUser.password
         ).then((resp) => {
-            return firestore.collection('users').doc(resp.user.uid).set({
-                firstName: newUser.firstName,
-                lastName: newUser.lastName
-            }, { merge: true }).then(() => {
-                dispatch({ type: 'SIGNUP_SUCCESS' });
-            }).catch((err) => dispatch({ type: 'SIGNUP_ERROR', err }));
+            return onSignUpSuccess(firestore, resp.user.uid, newUser)
+                .then(() => {
+                    dispatch({ type: 'SIGNUP_SUCCESS' });
+                }).catch((err) => dispatch({ type: 'SIGNUP_ERROR', err }));
         })
     }
 }
@@ -48,9 +53,9 @@ export const linkGoogle = () => {
 
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().currentUser.linkWithPopup(provider).then(function () {
-            dispatch({type: 'LINK_SUCCESS', provider});
+            dispatch({ type: 'LINK_SUCCESS', provider });
         }).catch(function (err) {
-            dispatch({type: 'LINK_ERROR', provider, err});
+            dispatch({ type: 'LINK_ERROR', provider, err });
         });
     };
 }

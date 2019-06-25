@@ -49,17 +49,27 @@ const Links = (props) => {
             <ul className="navbar-nav mr-auto">
                 {linkList}
             </ul>
-            <div id="userBar">
-                <span className="navbar-text text-dark mr-md-2" id="navUser">
-                    <NavLink to="/profile">
-                        <span className="badge badge-pill badge-primary" style={{fontSize: '90%'}}>
-                            {getName()}
-                        </span>
-                    </NavLink>
-                </span>
-            </div>
-            <button className="btn btn-outline-dark" onClick={props.signOut}>Sign out</button>
-        </div >
+            {
+                userLogined ?
+                    
+                        <div id="userBar">
+                            <span className="navbar-text text-dark mr-md-2" id="navUser">
+                                <NavLink to="/profile">
+                                    <span className="badge badge-pill badge-primary" style={{ fontSize: '90%' }}>
+                                        {getName()}
+                                    </span>
+                                </NavLink>
+                            </span>
+                        </div>
+                    :
+                    null
+            }
+            {
+                userLogined ? 
+                <button className="btn btn-outline-dark" onClick={props.signOut}>Sign out</button>
+                :null
+            }
+        </div>
     )
 }
 
