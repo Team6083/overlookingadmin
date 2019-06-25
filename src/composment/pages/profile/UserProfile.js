@@ -27,7 +27,7 @@ export class UserProfile extends Component {
         return (
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-md-2 col-12">
+                    <div className="col-lg-2 col-12">
                         <div className="card">
                             <div className="card-body">
                                 <MDBNav className="flex-column nav-pills">
@@ -45,7 +45,7 @@ export class UserProfile extends Component {
 
                         </div>
                     </div>
-                    <div className="col-md-10 col-12 mt-3 mt-md-0">
+                    <div className="col-lg-10 col-12 mt-3 mt-lg-0" style={{ overflowY: "scroll" }}>
                         <SubRouter routes={this.routes} perfix="/profile" />
                     </div>
                 </div>

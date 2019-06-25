@@ -4,7 +4,7 @@ import Links from './Links'
 
 const NavBar = (props) => {
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
             <Link to='/' className='navbar-brand'>Overlooking Admin</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain">
                 <span className="navbar-toggler-icon"></span>
