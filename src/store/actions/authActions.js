@@ -59,9 +59,17 @@ export const authUISignUp = (resp) => {
 export const updateEmail = (newEmail) => {
     return (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase();
-
         firebase.auth().currentUser.updateEmail(newEmail).then(function () {
-            dispatch({ type: 'UPDATEEMAIL_SUCCESS' });
+            if (!firebase.auth().currentUser.emailVerified) {
+                firebase.auth().currentUser.sendEmailVerification().then(function () {
+                    dispatch({ type: 'UPDATEEMAIL_SUCCESS' });
+                }).catch(function (err) {
+                    dispatch({ type: 'UPDATEEMAIL_ERROR', err });
+                });
+            }
+            else{
+                dispatch({ type: 'UPDATEEMAIL_SUCCESS' });
+            }
         }).catch(function (err) {
             dispatch({ type: 'UPDATEEMAIL_ERROR', err });
         });

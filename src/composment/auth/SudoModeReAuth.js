@@ -67,8 +67,6 @@ export class SudoModeReAuth extends Component {
                                 }
 
                                 const providers = firebaseProviders;
-                                console.log(providers);
-
                                 let { icon, name, btnClass, provider } = providers[providerId];
 
                                 return (

@@ -26,7 +26,7 @@ export class SudoReAuthModal extends Component {
         }
     }
 
-    reAuthValidLength = 30
+    reAuthValidLength = 5
 
     render() {
         return (

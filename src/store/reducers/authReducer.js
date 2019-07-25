@@ -1,8 +1,8 @@
 const initState = {
     authError: null,
-    updateEmailError: null,
     reAuthError: null,
-    reAuthTime: null
+    reAuthTime: null,
+    actionError: null
 }
 
 const authReducer = (state = initState, action) => {
@@ -56,13 +56,15 @@ const authReducer = (state = initState, action) => {
             console.log('update email success');
             return {
                 ...state,
-                updateEmailError: null
+                actionError: null,
+                updateEmailSuccess: true
             };
         case 'UPDATEEMAIL_ERROR':
             console.log('update email error', action.err);
             return {
                 ...state,
-                updateEmailError: action.err.message
+                actionError: action.err.message,
+                updateEmailSuccess: false
             };
         case 'REAUTH_SUCCESS':
             console.log('reauth success');
