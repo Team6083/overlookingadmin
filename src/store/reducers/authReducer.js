@@ -1,5 +1,8 @@
 const initState = {
-    authError: null
+    authError: null,
+    updateEmailError: null,
+    reAuthError: null,
+    reAuthTime: null
 }
 
 const authReducer = (state = initState, action) => {
@@ -49,6 +52,32 @@ const authReducer = (state = initState, action) => {
         case 'FIREBASE_UI_SHOWN':
             console.log('Firebase ui shown');
             return state;
+        case 'UPDATEEMAIL_SUCCESS':
+            console.log('update email success');
+            return {
+                ...state,
+                updateEmailError: null
+            };
+        case 'UPDATEEMAIL_ERROR':
+            console.log('update email error', action.err);
+            return {
+                ...state,
+                updateEmailError: action.err.message
+            };
+        case 'REAUTH_SUCCESS':
+            console.log('reauth success');
+            return {
+                ...state,
+                reAuthError: null,
+                reAuthTime: new Date()
+            };
+        case 'REAUTH_ERROR':
+            console.log('reauth error', action.err);
+            return {
+                ...state,
+                reAuthError: action.err.message,
+                reAuthTime: null
+            };
         default:
             return state;
     }

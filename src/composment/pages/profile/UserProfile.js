@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { MDBNav, MDBNavItem, MDBNavLink } from 'mdbreact';
 import SubRouter from '../../SubRouter'
 import EditProfile from './EditProfile'
+import EditEmail from './EditEmail'
 
 export class UserProfile extends Component {
     state = {
@@ -21,6 +22,12 @@ export class UserProfile extends Component {
             component: EditProfile,
             name: 'EditProfile'
         },
+        {
+            path: '/editEmail',
+            component: EditEmail,
+            name: 'EditEmail',
+            hide: true
+        }
     ]
 
     render() {
@@ -32,13 +39,12 @@ export class UserProfile extends Component {
                             <div className="card-body">
                                 <MDBNav className="flex-column nav-pills">
                                     {this.routes.map((route, i) => {
-                                        const { path, name } = route;
-                                        return (
-                                            <MDBNavItem
+                                        const { path, name, hide } = route;
+                                        return !hide ?
+                                            (<MDBNavItem
                                                 key={i}>
                                                 <MDBNavLink {...window.location.href === "/profile" + path ? "active" : null} to={"/profile" + path}>{name}</MDBNavLink>
-                                            </MDBNavItem>
-                                        );
+                                            </MDBNavItem>) : null;
                                     })}
                                 </MDBNav>
                             </div>

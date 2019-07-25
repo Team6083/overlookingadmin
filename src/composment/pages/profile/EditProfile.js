@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 
 export class EditProfile extends Component {
@@ -86,7 +87,7 @@ export class EditProfile extends Component {
                                                 <div className="col-sm-10">
                                                     <input readOnly className="form-control-plaintext" type="text" id="email" value={this.state.profile.email} />
                                                 </div>
-                                                <a className="col-sm-12 badge badge-primary" href="/profile/editEmail">Click here to change email.</a>
+                                                <Link className="col-sm-12 badge badge-primary" to="/profile/editEmail">Click here to change email.</Link>
                                             </div>
                                         </div>
                                     </div>

@@ -56,6 +56,54 @@ export const authUISignUp = (resp) => {
     }
 }
 
+export const updateEmail = (newEmail) => {
+    return (dispatch, getState, { getFirebase }) => {
+        const firebase = getFirebase();
+
+        firebase.auth().currentUser.updateEmail(newEmail).then(function () {
+            dispatch({ type: 'UPDATEEMAIL_SUCCESS' });
+        }).catch(function (err) {
+            dispatch({ type: 'UPDATEEMAIL_ERROR', err });
+        });
+    }
+}
+
+export const updatePassword = (newPassword) => {
+    return (dispatch, getState, { getFirebase }) => {
+        const firebase = getFirebase();
+
+        firebase.auth().currentUser.updatePassword(newPassword).then(function () {
+            dispatch({ type: 'UPDATEPASSWORD_SUCCESS' });
+        }).catch(function (err) {
+            dispatch({ type: 'UPDATEPASSWORD_ERROR', err });
+        })
+    }
+}
+
+export const reAuth = (provider) => {
+    return (dispatch, getState, { getFirebase }) => {
+        const firebase = getFirebase();
+
+        firebase.auth().currentUser.reauthenticateWithPopup(provider).then(function () {
+            dispatch({ type: 'REAUTH_SUCCESS' });
+        }, function (err) {
+            dispatch({ type: 'REAUTH_ERROR', err });
+        });
+    }
+}
+
+export const reAuthWithCredential = (credential) => {
+    return (dispatch, getState, { getFirebase }) => {
+        const firebase = getFirebase();
+
+        firebase.auth().currentUser.reauthenticateWithCredential(credential).then(function () {
+            dispatch({ type: 'REAUTH_SUCCESS' });
+        }, function (err) {
+            dispatch({ type: 'REAUTH_ERROR', err });
+        });
+    }
+}
+
 export const linkGoogle = () => {
     return (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase();
