@@ -4,7 +4,6 @@ import store from '../store';
 import { authUISignUp } from '../store/actions/authActions'
 
 const uiConfig = {
-  signInSuccessUrl: '/',
   callbacks: {
     signInSuccessWithAuthResult: function (authResult, redirectUrl) {
       const isNewUser = authResult.additionalUserInfo.isNewUser;
