@@ -66,6 +66,20 @@ const authReducer = (state = initState, action) => {
                 actionError: action.err.message,
                 updateEmailSuccess: false
             };
+        case 'UPDATEPASSWORD_SUCCESS':
+            console.log('update password success');
+            return {
+                ...state,
+                actionError: null,
+                updatePasswordSuccess: true
+            };
+        case 'UPDATEPASSWORD_ERROR':
+            console.log('update password error', action.err);
+            return {
+                ...state,
+                actionError: action.err.message,
+                updatePasswordSuccess: false
+            };
         case 'REAUTH_SUCCESS':
             console.log('reauth success');
             return {

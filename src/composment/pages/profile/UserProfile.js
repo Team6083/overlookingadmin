@@ -5,6 +5,7 @@ import { MDBNav, MDBNavItem, MDBNavLink } from 'mdbreact';
 import SubRouter from '../../SubRouter'
 import EditProfile from './EditProfile'
 import EditEmail from './EditEmail'
+import EditPassword from './EditPassword'
 
 export class UserProfile extends Component {
     state = {
@@ -27,6 +28,11 @@ export class UserProfile extends Component {
             component: EditEmail,
             name: 'EditEmail',
             hide: true
+        },
+        {
+            path: '/editPassword',
+            component: EditPassword,
+            name: 'EditPassword'
         }
     ]
 
