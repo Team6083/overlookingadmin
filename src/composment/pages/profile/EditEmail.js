@@ -73,6 +73,11 @@ export class EditEmail extends Component {
                                         <button className="btn btn-primary btn-block">Save</button>
                                     </div>
                                 </div>
+                                <div className={!this.state.displayForm && !updateEmailSuccess ? null : "d-none"}>
+                                    <div className="spinner-border text-info" role="status">
+                                        <span className="sr-only">Loading...</span>
+                                    </div>
+                                </div>
                                 <div className={updateEmailSuccess ? "alert alert-success" : "d-none"}>
                                     <h3 className="">Email updated</h3>
                                 </div>

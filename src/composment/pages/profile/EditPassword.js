@@ -57,19 +57,26 @@ export class EditPassword extends Component {
 
     componentDidUpdate(oldProps) {
         const newProps = this.props
+
+        let newState = this.state;
+
         if (oldProps.auth.actionError !== newProps.auth.actionError) {
-            this.setState({
-                ...this.state,
+            newState = {
+                ...newState,
                 actionError: newProps.auth.actionError,
                 displayForm: newProps.auth.actionError !== null
-            })
+            }
         }
 
         if (oldProps.auth.updatePasswordSuccess !== newProps.auth.updatePasswordSuccess) {
-            this.setState({
-                ...this.state,
+            newState = {
+                ...newState,
                 success: newProps.auth.updatePasswordSuccess
-            })
+            }
+        }
+
+        if (newState !== this.state) {
+            this.setState(newState);
         }
     }
 
@@ -80,7 +87,7 @@ export class EditPassword extends Component {
                 <SudoReAuthModal />
                 <form onSubmit={this.handleSubmit}>
                     <div className="text-center">
-                        <h2>Update email</h2>
+                        <h2>Update password</h2>
                         <div className="form-row mt-5">
                             <div className="col-lg-4"></div>
                             <div className="col-lg-4 col-12">
@@ -103,6 +110,11 @@ export class EditPassword extends Component {
                                     </div>
                                     <div className="form-group">
                                         <button className="btn btn-primary btn-block">Save</button>
+                                    </div>
+                                </div>
+                                <div className={!this.state.displayForm && !success ? null : "d-none"}>
+                                    <div className="spinner-border text-info" role="status">
+                                        <span className="sr-only">Loading...</span>
                                     </div>
                                 </div>
                                 <div className={success ? "alert alert-success" : "d-none"}>
