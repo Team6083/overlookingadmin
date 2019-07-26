@@ -1,12 +1,19 @@
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import NotFound from './layout/errPages/NotFound'
 
 class SubRouter extends Component {
     render() {
-        const { routes, perfix } = this.props;
+        const { routes, redirects, perfix } = this.props;
 
         return (
             <Switch>
+                {redirects.map((redirect, i) => {
+                    const { path, to } = redirect;
+                    return (
+                        <Redirect key={i} from={perfix ? (perfix + path) : path} to={perfix ? (perfix + to) : path} exact />
+                    );
+                })}
                 {routes.map((route, i) => {
                     const { path, exact } = route;
                     return (
@@ -18,6 +25,7 @@ class SubRouter extends Component {
                         </Route>
                     );
                 })}
+                <Route component={NotFound} />
             </Switch>
         )
     }

@@ -36,6 +36,13 @@ export class UserProfile extends Component {
         }
     ]
 
+    redirect = [
+        {
+            path: '/',
+            to: '/editProfile'
+        },
+    ]
+
     render() {
         return (
             <div className="container-fluid">
@@ -58,7 +65,7 @@ export class UserProfile extends Component {
                         </div>
                     </div>
                     <div className="col-lg-10 col-12 mt-3 mt-lg-0" style={{ overflowY: "scroll" }}>
-                        <SubRouter routes={this.routes} perfix="/profile" />
+                        <SubRouter routes={this.routes} perfix="/profile" redirects={this.redirect} />
                     </div>
                 </div>
             </div>

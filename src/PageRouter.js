@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import permissionCheck from './composment/auth/permissionCheck'
 import roles from './constant/userRoles'
+import NotFound from './composment/layout/errPages/NotFound'
 
 class PageRouter extends Component {
     render() {
@@ -40,6 +41,7 @@ class PageRouter extends Component {
                         />
                     );
                 })}
+                <Route component={NotFound}></Route>
             </Switch>
         )
     }
