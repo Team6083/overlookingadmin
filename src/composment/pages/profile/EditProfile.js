@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { MDBIcon } from 'mdbreact'
+import { saveUser } from '../../../store/actions/userActions'
 
 export class EditProfile extends Component {
 
@@ -55,6 +56,8 @@ export class EditProfile extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        let uid = this.props.firebase.auth.uid;
+        this.props.saveUserProfile(this.state.profile, uid);
     }
 
     getDateStr = (date) => {
@@ -91,7 +94,7 @@ export class EditProfile extends Component {
                                                     <div className="input-group">
                                                         <input readOnly className="form-control-plaintext" type="text" id="email" value={this.state.profile.email} />
                                                         <div className="input-group-append">
-                                                            {this.state.emailVerified ?<MDBIcon far className="green-text" icon="check-circle" /> : <MDBIcon className="amber-text" icon="exclamation-circle" />}
+                                                            {this.state.emailVerified ? <MDBIcon far className="green-text" icon="check-circle" /> : <MDBIcon className="amber-text" icon="exclamation-circle" />}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -241,6 +244,7 @@ export class EditProfile extends Component {
                                             </div>
                                         </div>
                                     </div>
+                                    <button className="btn btn-primary" type="submit">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -253,7 +257,9 @@ export class EditProfile extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        saveUserProfile: (profile, uid) => {
+            dispatch(saveUser(profile, uid, true));
+        }
     }
 }
 
