@@ -34,10 +34,16 @@ const userReducer = (state = initState, action) => {
     switch (action.type) {
         case "SAVE_USER_SUCCESS":
             console.log("User " + action.uid + " saved");
-            return state;
+            return {
+                ...state,
+                saveUserSuccess: true
+            };
         case "SAVE_USER_ERROR":
             console.log("Fail to save user", action.err);
-            return state;
+            return {
+                ...state,
+                saveUserSuccess: false
+            };
         case "LASTLOGINTIME_UPDATED":
             console.log("Last login time of " + action.uid + " updated");
             return state;
