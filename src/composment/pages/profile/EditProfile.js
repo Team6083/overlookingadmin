@@ -42,6 +42,7 @@ export class EditProfile extends Component {
         },
         defaultSchool: "CMSH",
         requireParent: true,
+        //TODO: get options from setting
         emailVerified: null
     }
 
@@ -175,7 +176,7 @@ export class EditProfile extends Component {
                                         <div className="col col-lg-4">
                                             <div className="form-group">
                                                 <label htmlFor="school">School</label>
-                                                <input className="form-control" type="text" id="school" onChange={this.handleChange} />
+                                                <input className="form-control" type="text" id="school" onChange={this.handleChange} placeholder={this.state.defaultSchool} />
                                                 <small className="form-text text-muted">Left blank if you school is <strong>{this.state.defaultSchool}</strong>.</small>
                                             </div>
                                         </div>
