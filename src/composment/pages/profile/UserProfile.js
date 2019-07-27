@@ -6,6 +6,7 @@ import SubRouter from '../../SubRouter'
 import EditProfile from './EditProfile'
 import EditEmail from './EditEmail'
 import EditPassword from './EditPassword'
+import EditParentData from './EditParentData'
 
 export class UserProfile extends Component {
     state = {
@@ -33,6 +34,12 @@ export class UserProfile extends Component {
             path: '/editPassword',
             component: EditPassword,
             name: 'EditPassword'
+        },
+        {
+            path: '/editParentData',
+            component: EditParentData,
+            name: 'EditParentData',
+            hide: true
         }
     ]
 
@@ -54,8 +61,7 @@ export class UserProfile extends Component {
                                     {this.routes.map((route, i) => {
                                         const { path, name, hide } = route;
                                         return !hide ?
-                                            (<MDBNavItem
-                                                key={i}>
+                                            (<MDBNavItem key={i}>
                                                 <MDBNavLink {...window.location.href === "/profile" + path ? "active" : null} to={"/profile" + path}>{name}</MDBNavLink>
                                             </MDBNavItem>) : null;
                                     })}
