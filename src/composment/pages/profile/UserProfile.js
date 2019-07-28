@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { linkGoogle } from '../../../store/actions/authActions'
 import { connect } from 'react-redux'
 import { MDBNav, MDBNavItem, MDBNavLink } from 'mdbreact';
 import SubRouter from '../../SubRouter'
@@ -7,14 +6,10 @@ import EditProfile from './EditProfile'
 import EditEmail from './EditEmail'
 import EditPassword from './EditPassword'
 import EditParentData from './EditParentData'
+import LinkAccount from './LinkAccount'
 
 export class UserProfile extends Component {
     state = {
-
-    }
-
-
-    handleLinkGoogleAccount = () => {
 
     }
 
@@ -40,6 +35,11 @@ export class UserProfile extends Component {
             component: EditParentData,
             name: 'EditParentData',
             hide: true
+        },
+        {
+            path: '/linkAccount',
+            component: LinkAccount,
+            name: 'LinkAccount'
         }
     ]
 
@@ -81,7 +81,7 @@ export class UserProfile extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        linkGoogleAcc: () => dispatch(linkGoogle)
+        
     }
 }
 

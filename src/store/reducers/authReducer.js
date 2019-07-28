@@ -94,6 +94,34 @@ const authReducer = (state = initState, action) => {
                 reAuthError: action.err.message,
                 reAuthTime: null
             };
+        case 'LINK_SUCCESS':
+            console.log('link account success', action.provider.providerId);
+            return {
+                ...state,
+                actionError: null,
+                linkAccountSuccess: true
+            };
+        case 'LINK_ERROR':
+            console.log('link account error', action.err);
+            return {
+                ...state,
+                actionError: action.err.message,
+                linkAccountSuccess: false
+            };
+        case 'UNLINK_SUCCESS':
+            console.log('unlink account success', action.provider.providerId);
+            return {
+                ...state,
+                actionError: null,
+                unLinkAccountSuccess: true
+            };
+        case 'UNLINK_ERROR':
+            console.log('unlink account error', action.err);
+            return {
+                ...state,
+                actionError: action.err.message,
+                unLinkAccountSuccess: false
+            };
         default:
             return state;
     }

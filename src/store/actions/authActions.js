@@ -67,7 +67,7 @@ export const updateEmail = (newEmail) => {
                     dispatch({ type: 'UPDATEEMAIL_ERROR', err });
                 });
             }
-            else{
+            else {
                 dispatch({ type: 'UPDATEEMAIL_SUCCESS' });
             }
         }).catch(function (err) {
@@ -112,11 +112,10 @@ export const reAuthWithCredential = (credential) => {
     }
 }
 
-export const linkGoogle = () => {
+export const linkAccount = (provider) => {
     return (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase();
 
-        const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().currentUser.linkWithPopup(provider).then(function () {
             dispatch({ type: 'LINK_SUCCESS', provider });
         }).catch(function (err) {
@@ -125,3 +124,14 @@ export const linkGoogle = () => {
     };
 }
 
+export const unLinkAccount = (provider) => {
+    return (dispatch, getState, { getFirebase }) => {
+        const firebase = getFirebase();
+
+        firebase.auth().currentUser.unlink(provider.providerId).then(function () {
+            dispatch({ type: 'UNLINK_SUCCESS', provider });
+        }).catch(function (err) {
+            dispatch({ type: 'UNLINK_ERROR', provider, err });
+        });
+    };
+}
