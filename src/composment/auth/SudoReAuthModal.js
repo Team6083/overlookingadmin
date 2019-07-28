@@ -16,7 +16,7 @@ export class SudoReAuthModal extends Component {
         })
     }
 
-    componentDidUpdate(oldProps) {
+    componentWillReceiveProps(oldProps) {
         const newProps = this.props
         if (oldProps.reAuthTime !== newProps.reAuthTime) {
             this.setState({
