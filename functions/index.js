@@ -25,13 +25,12 @@ exports.slackWebhook = functions.https.onRequest((req, res) => {
 });
 
 exports.addUserToDataBase = functions.auth.user().onCreate((user) => {
-  var userData = {};
+  let userData = {
+    name: "unknown",
+    level: 1,
+    email: user.email
+  }
 
-  userData["name"] = "unknown";
-  userData["level"] = 1;
-  userData["email"] = user.email;
-  userData["providerUID"] = user.providerData[0].uid;
-  userData["providerId"] = user.providerData[0].providerId;
   return admin.firestore().collection("users").doc(user.uid).set(userData, { merge: true });
 });
 
