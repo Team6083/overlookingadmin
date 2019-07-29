@@ -4,7 +4,7 @@ import { linkAccount, unLinkAccount } from '../../../store/actions/authActions'
 import uiConfig from '../../../config/fbAuthUIConfig'
 import '../../auth/firebaseui/firebaseui.css'
 import firebaseProviders from '../../auth/firebaseui/firebaseProviders'
-import { MDBPopoverHeader, MDBPopoverBody, MDBCollapse } from 'mdbreact'
+import { MDBCollapse } from 'mdbreact'
 
 export class LinkAccount extends Component {
 
@@ -120,7 +120,7 @@ export class LinkAccount extends Component {
                                 {
                                     accountProviders[providerId] ?
                                         <div>
-                                            <a className="badge badge-primary badge-pill" onClick={() => {
+                                            <a href="#" className="badge badge-primary badge-pill" onClick={() => {
                                                 this.toggleCollapse(providerId);
                                             }}>
                                                 Linked with {accountProviders[providerId].displayName}
@@ -129,7 +129,7 @@ export class LinkAccount extends Component {
                                             <button className="ml-2 btn btn-sm btn-danger" onClick={() => { this.handleUnlink(new provider()) }}>Unlink</button>
 
                                             <MDBCollapse id={providerId} isOpen={this.state.collapseID}>
-                                                <img src={accountProviders[providerId].photoURL} style={{
+                                                <img alt={accountProviders[providerId].displayName} src={accountProviders[providerId].photoURL} style={{
                                                     border: "none",
                                                     display: "inline-block",
                                                     height: "72px",

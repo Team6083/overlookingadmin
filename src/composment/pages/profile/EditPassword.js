@@ -40,7 +40,10 @@ export class EditPassword extends Component {
         e.preventDefault();
 
         if (this.state.psw.newPsw !== this.state.psw.newPswConfirm) {
-            this.state.actionError = "Password not match, please confirm the passwords you enter match."
+            this.setState({
+                ...this.state,
+                actionError: "Password not match, please confirm the passwords you enter match."
+            });
         }
 
         this.props.updatePassword(this.state.psw.newPsw);
