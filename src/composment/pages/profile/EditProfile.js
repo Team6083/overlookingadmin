@@ -38,7 +38,18 @@ export class EditProfile extends Component {
             name: '',
             address: '',
             email: '',
-            birthday: new Date()
+            birthday: new Date(),
+            phoneNumbers: {
+                home: '',
+                mobile: ''
+            },
+            schoolData: {
+                department: '',
+                id: '',
+                number: 0,
+                school: '',
+                type: ''
+            }
         },
         defaultSchool: "CMSH",
         requireParent: true,
@@ -47,12 +58,38 @@ export class EditProfile extends Component {
     }
 
     handleChange = (e) => {
+        let keys = e.target.id.split('.');
+        let change = {};
+        let length = keys.length;
+
+        change = {
+            [keys[length - 1]]: e.target.value
+        }
+
+        for (let i = 1; i < keys.length - 1; i++) {
+            change = {
+                [keys[length - 1 - i]]: change
+            }
+        }
+
+        if (length > 1) {
+            change = {
+                [keys[0]]: {
+                    ...this.state.profile[keys[0]],
+                    ...change
+                }
+            }
+        }
+
         this.setState({
+            ...this.state,
             profile: {
                 ...this.state.profile,
-                [e.target.id]: e.target.value
+                ...change
             }
         })
+
+        //TODO: check old codes
     }
 
     handleSubmit = (e) => {
@@ -62,6 +99,7 @@ export class EditProfile extends Component {
     }
 
     getDateStr = (date) => {
+        if ((typeof date) == "string") return date;
         if (!(date instanceof Date)) date = new Date(date.seconds * 1000);
         let m = date.getMonth() + 1;
         let d = date.getDate();
@@ -149,13 +187,13 @@ export class EditProfile extends Component {
                                         <div className="col col-lg-6">
                                             <div className="form-group">
                                                 <label htmlFor="homePhone">Home</label>
-                                                <input className="form-control" type="tel" id="homePhone" onChange={this.handleChange} />
+                                                <input className="form-control" type="tel" id="phoneNumbers.home" value={this.state.profile.phoneNumbers.home} onChange={this.handleChange} />
                                             </div>
                                         </div>
                                         <div className="col col-lg-6">
                                             <div className="form-group">
                                                 <label htmlFor="mobilePhone">Mobile</label>
-                                                <input className="form-control" type="tel" id="mobilePhone" onChange={this.handleChange} />
+                                                <input className="form-control" type="tel" id="phoneNumbers.mobile" value={this.state.profile.phoneNumbers.mobile} onChange={this.handleChange} />
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +205,7 @@ export class EditProfile extends Component {
                                         <div className="col col-lg-4">
                                             <div className="form-group">
                                                 <label htmlFor="schoolDataType">Type</label>
-                                                <select id="schoolDataType" className="form-control" onChange={this.handleChange} defaultValue="Choose...">
+                                                <select id="schoolData.type" className="form-control" value={this.state.profile.schoolData.type} onChange={this.handleChange}>
                                                     <option>Choose...</option>
                                                     <option>...</option>
                                                 </select>
@@ -176,14 +214,14 @@ export class EditProfile extends Component {
                                         <div className="col col-lg-4">
                                             <div className="form-group">
                                                 <label htmlFor="school">School</label>
-                                                <input className="form-control" type="text" id="school" onChange={this.handleChange} placeholder={this.state.defaultSchool} />
+                                                <input className="form-control" type="text" id="schoolData.school" value={this.state.profile.schoolData.school} onChange={this.handleChange} placeholder={this.state.defaultSchool} />
                                                 <small className="form-text text-muted">Left blank if you school is <strong>{this.state.defaultSchool}</strong>.</small>
                                             </div>
                                         </div>
                                         <div className="col col-lg-4">
                                             <div className="form-group">
                                                 <label htmlFor="schoolId">ID</label>
-                                                <input className="form-control" type="text" id="schoolId" onChange={this.handleChange} />
+                                                <input className="form-control" type="text" id="schoolData.id" value={this.state.profile.schoolData.id} onChange={this.handleChange} />
                                                 <small className="form-text text-muted">Student id or teacher id...</small>
                                             </div>
                                         </div>
@@ -193,14 +231,14 @@ export class EditProfile extends Component {
                                         <div className="col col-lg-4">
                                             <div className="form-group">
                                                 <label htmlFor="schoolDepartment">Department</label>
-                                                <input className="form-control" type="text" id="schoolDepartment" onChange={this.handleChange} />
+                                                <input className="form-control" type="text" id="schoolData.department" value={this.state.profile.schoolData.department} onChange={this.handleChange} />
                                                 <small className="form-text text-muted">Class name for student.</small>
                                             </div>
                                         </div>
                                         <div className="col col-lg-4">
                                             <div className="form-group">
                                                 <label htmlFor="schoolNmber">Number</label>
-                                                <input className="form-control" type="number" id="schoolNmber" onChange={this.handleChange} />
+                                                <input className="form-control" type="number" id="schoolData.number" value={this.state.profile.schoolData.number} onChange={this.handleChange} />
                                                 <small className="form-text text-muted">Only needed if you are student.</small>
                                             </div>
                                         </div>
