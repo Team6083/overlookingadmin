@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { MDBIcon } from 'mdbreact'
 import { saveUser } from '../../../store/actions/userActions'
+import FullScreenLoadingModal from '../../layout/FullScreenLoadingModal'
 
 export class EditProfile extends Component {
 
@@ -46,13 +47,13 @@ export class EditProfile extends Component {
             schoolData: {
                 department: '',
                 id: '',
-                number: 0,
                 school: '',
                 type: ''
-            }
+            },
+            isLoaded: false
         },
         defaultSchool: "CMSH",
-        requireParent: true,
+        requireParent: false,
         //TODO: get options from setting
         emailVerified: null
     }
@@ -109,6 +110,7 @@ export class EditProfile extends Component {
     render() {
         return (
             <div>
+                <FullScreenLoadingModal open={!this.state.profile.isLoaded} />
                 <div className="row">
                     <div className="col-12 col-lg-10">
                         <form onSubmit={this.handleSubmit} className="mb-5">
@@ -230,16 +232,9 @@ export class EditProfile extends Component {
                                     <div className="form-row">
                                         <div className="col col-lg-4">
                                             <div className="form-group">
-                                                <label htmlFor="schoolDepartment">Department</label>
+                                                <label htmlFor="schoolDepartment">Department (Class)</label>
                                                 <input className="form-control" type="text" id="schoolData.department" value={this.state.profile.schoolData.department} onChange={this.handleChange} />
                                                 <small className="form-text text-muted">Class name for student.</small>
-                                            </div>
-                                        </div>
-                                        <div className="col col-lg-4">
-                                            <div className="form-group">
-                                                <label htmlFor="schoolNmber">Number</label>
-                                                <input className="form-control" type="number" id="schoolData.number" value={this.state.profile.schoolData.number} onChange={this.handleChange} />
-                                                <small className="form-text text-muted">Only needed if you are student.</small>
                                             </div>
                                         </div>
                                     </div>
@@ -259,7 +254,8 @@ export class EditProfile extends Component {
                                                                 <span className="badge badge-default">Pending</span>
                                                                 : <span className="badge badge-danger">Rejected</span>
                                                         ))
-                                                    : <span className="badge badge-default">No need</span>
+                                                    : <span className="badge badge-default">n/a</span>
+                                                    //TODO: change "n/a" to "No need"
                                             }
                                         </h5>
                                     </div>
@@ -269,7 +265,7 @@ export class EditProfile extends Component {
                                                 <div className=" form-group row">
                                                     <label htmlFor="parentName" className="col-sm-2 col-form-label">Name</label>
                                                     <div className="col-sm-10">
-                                                        <input readOnly className="form-control-plaintext" type="text" id="parentName" value={"James"} />
+                                                        <input readOnly className="form-control-plaintext" type="text" id="parentName" value={"n/a"} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -277,13 +273,13 @@ export class EditProfile extends Component {
                                                 <div className=" form-group row">
                                                     <label htmlFor="parentRelationship" className="col-sm-2 col-form-label">Relationship</label>
                                                     <div className="col-sm-10">
-                                                        <input readOnly className="form-control-plaintext" type="text" id="parentRelationship" value={"Father"} />
+                                                        <input readOnly className="form-control-plaintext" type="text" id="parentRelationship" value={"n/a"} />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <button className="btn btn-primary" type="submit">Save</button>
+                                    <button className="btn btn-primary mt-5" type="submit">Save</button>
                                 </div>
                             </div>
                         </form>
