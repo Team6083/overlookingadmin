@@ -34,7 +34,8 @@ const Links = (props) => {
     })
 
     const getName = () => {
-        return profile.name;
+        if (profile.name !== "" && profile.name !== null && profile.name !== undefined) return profile.name;
+        else return auth.uid;
     }
 
     return (
@@ -44,23 +45,23 @@ const Links = (props) => {
             </ul>
             {
                 userLogined ?
-                    
-                        <div id="userBar">
-                            <span className="navbar-text text-dark mr-md-2" id="navUser">
-                                <NavLink to="/profile">
-                                    <span className="badge badge-pill badge-primary" style={{ fontSize: '90%' }}>
-                                        {getName()}
-                                    </span>
-                                </NavLink>
-                            </span>
-                        </div>
+
+                    <div id="userBar">
+                        <span className="navbar-text text-dark mr-md-2" id="navUser">
+                            <NavLink to="/profile">
+                                <span className="badge badge-pill badge-primary" style={{ fontSize: '90%' }}>
+                                    {getName()}
+                                </span>
+                            </NavLink>
+                        </span>
+                    </div>
                     :
                     null
             }
             {
-                userLogined ? 
-                <button className="btn btn-outline-dark" onClick={props.signOut}>Sign out</button>
-                :null
+                userLogined ?
+                    <button className="btn btn-outline-dark" onClick={props.signOut}>Sign out</button>
+                    : null
             }
         </div>
     )
