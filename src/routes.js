@@ -5,6 +5,8 @@ import UserProfile from './composment/pages/profile/UserProfile';
 
 import roles from './constant/userRoles';
 
+import UserList from './composment/pages/user/userList'
+
 const routes = [
     {
         path: '/',
@@ -45,6 +47,11 @@ const routes = [
             deny: [roles.UnAuth]
         },
         hideOnNav: true
+    },
+    {
+        path: '/users',
+        component: UserList,
+        name: 'Users'
     }
 ];
 
