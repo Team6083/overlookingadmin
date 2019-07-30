@@ -1,28 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+
 admin.initializeApp();
-
-const cors = require('cors')({
-  origin: true,
-});
-
-const overAuth = require("./overlookingOAuth");
-
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
-
-exports.slackWebhook = functions.https.onRequest((req, res) => {
-  // Push the new message into the Realtime Database using the Firebase Admin SDK.
-  var data = req.body;
-
-  return admin.database().ref('/webhooks').push({
-    data: data
-  });
-});
 
 exports.addUserToDataBase = functions.auth.user().onCreate((user) => {
   let userData = {
@@ -42,16 +21,6 @@ exports.removeUserFromDatabase = functions.auth.user().onDelete((user) => {
   return admin.firestore().collection("users").doc(uid).delete();
 });
 
-exports.verifyIDToken = functions.https.onRequest((req, res) => {
-  return cors(req, res, () => {
-    const type = req.body.type;
-    switch (type) {
-      case "getCustomToken":
-        overAuth.getCustomToken(req, res, admin);
-        break;
-      case "getUsersAppUID":
-        overAuth.getUsersAppUID(req, res, admin);
-        break;
-    }
-  });
-});
+const apiServer = require('./api/server')(admin);
+
+exports.graphql = functions.https.onRequest(apiServer);
