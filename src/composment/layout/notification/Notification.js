@@ -27,8 +27,6 @@ export class Notification extends Component {
             text = Math.floor(deltaTime / 60 / 60) + " hours ago";
         }
 
-        console.log(this.state);
-
         this.setState({
             ...this.state,
             text: text

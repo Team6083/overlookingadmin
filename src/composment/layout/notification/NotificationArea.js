@@ -26,7 +26,6 @@ export class NotificationArea extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state.notification.notifications);
     return {
         notifications: state.notification.notifications
     }
