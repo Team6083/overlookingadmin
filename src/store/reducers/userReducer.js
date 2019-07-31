@@ -28,7 +28,9 @@
  */
 
 
-const initState = {}
+const initState = {
+    
+}
 
 const userReducer = (state = initState, action) => {
     switch (action.type) {

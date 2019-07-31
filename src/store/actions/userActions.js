@@ -15,9 +15,11 @@ export const saveUser = (user, uid, update) => {
         return firestore.collection('users').doc(uid).set(user, { merge: (update === true) })
             .then(function (docRef) {
                 dispatch({ type: "SAVE_USER_SUCCESS", uid, docRef });
+                dispatch({ type: "NOTIFICATION_SEND", notification: { title: "Save Profile Success", message: "Your profile saved successful.", status: "success" } });
             })
             .catch(function (err) {
                 dispatch({ type: "SAVE_USER_ERROR", err });
+                dispatch({ type: "NOTIFICATION_SEND", notification: { title: "Save Profile Fail", message: "Error: " + err.message, status: "danger" } })
             });
     }
 }

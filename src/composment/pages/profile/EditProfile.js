@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { MDBIcon } from 'mdbreact'
 import { saveUser } from '../../../store/actions/userActions'
 import FullScreenLoadingModal from '../../layout/FullScreenLoadingModal'
+import { MDBNotification } from "mdbreact";
 
 export class EditProfile extends Component {
 
@@ -20,16 +21,30 @@ export class EditProfile extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-
         // load props to state when props update
+
+        let newState = {
+            ...this.state
+        }
+
         if (newProps.profile !== this.props.profile) {
-            this.setState({
+            newState = {
+                ...newState,
                 profile: {
                     ...this.state.profile,
                     ...newProps.profile
                 }
-            })
+            }
         }
+
+        if (newProps.firebase !== this.props.firebase) {
+            newState = {
+                ...newState,
+                uid: newProps.firebase.auth.uid
+            }
+        }
+
+        this.setState(newState);
     }
 
     state = {
@@ -59,26 +74,13 @@ export class EditProfile extends Component {
     }
 
     handleChange = (e) => {
-        let keys = e.target.id.split('.');
-        let change = {};
-        let length = keys.length;
+        let ids = e.target.id.split('.');
 
-        change = {
-            [keys[length - 1]]: e.target.value
-        }
+        let data = e.target.value;
 
-        for (let i = 1; i < keys.length - 1; i++) {
-            change = {
-                [keys[length - 1 - i]]: change
-            }
-        }
-
-        if (length > 1) {
-            change = {
-                [keys[0]]: {
-                    ...this.state.profile[keys[0]],
-                    ...change
-                }
+        for (let i = ids.length - 1; i >= 0; i--) {
+            data = {
+                [ids[i]]: data,
             }
         }
 
@@ -86,7 +88,7 @@ export class EditProfile extends Component {
             ...this.state,
             profile: {
                 ...this.state.profile,
-                ...change
+                ...data
             }
         })
 
@@ -124,7 +126,7 @@ export class EditProfile extends Component {
                                             <div className=" form-group row">
                                                 <label htmlFor="uid" className="col-sm-2 col-form-label">UID</label>
                                                 <div className="col-sm-10">
-                                                    <input readOnly className="form-control-plaintext" type="text" id="uid" value={this.props.firebase.auth.uid} />
+                                                    <input readOnly className="form-control-plaintext" type="text" id="uid" value={this.state.uid} />
                                                 </div>
                                             </div>
                                         </div>
@@ -188,13 +190,13 @@ export class EditProfile extends Component {
                                     <div className="form-row">
                                         <div className="col col-lg-6">
                                             <div className="form-group">
-                                                <label htmlFor="homePhone">Home</label>
+                                                <label htmlFor="phoneNumbers.home">Home</label>
                                                 <input className="form-control" type="tel" id="phoneNumbers.home" value={this.state.profile.phoneNumbers.home} onChange={this.handleChange} />
                                             </div>
                                         </div>
                                         <div className="col col-lg-6">
                                             <div className="form-group">
-                                                <label htmlFor="mobilePhone">Mobile</label>
+                                                <label htmlFor="phoneNumbers.mobile">Mobile</label>
                                                 <input className="form-control" type="tel" id="phoneNumbers.mobile" value={this.state.profile.phoneNumbers.mobile} onChange={this.handleChange} />
                                             </div>
                                         </div>
@@ -222,7 +224,7 @@ export class EditProfile extends Component {
                                         </div>
                                         <div className="col col-lg-4">
                                             <div className="form-group">
-                                                <label htmlFor="schoolId">ID</label>
+                                                <label htmlFor="schoolData.id">ID</label>
                                                 <input className="form-control" type="text" id="schoolData.id" value={this.state.profile.schoolData.id} onChange={this.handleChange} />
                                                 <small className="form-text text-muted">Student id or teacher id...</small>
                                             </div>
@@ -232,7 +234,7 @@ export class EditProfile extends Component {
                                     <div className="form-row">
                                         <div className="col col-lg-4">
                                             <div className="form-group">
-                                                <label htmlFor="schoolDepartment">Department (Class)</label>
+                                                <label htmlFor="schoolData.department">Department</label>
                                                 <input className="form-control" type="text" id="schoolData.department" value={this.state.profile.schoolData.department} onChange={this.handleChange} />
                                                 <small className="form-text text-muted">Class name for student.</small>
                                             </div>
@@ -260,7 +262,7 @@ export class EditProfile extends Component {
                                         </h5>
                                     </div>
                                     <div className={this.state.requireParent ? null : "d-none"}>
-                                        <div className="form-row">
+                                        <div className="form-row mt-2">
                                             <div className="col col-lg-4">
                                                 <div className=" form-group row">
                                                     <label htmlFor="parentName" className="col-sm-2 col-form-label">Name</label>
