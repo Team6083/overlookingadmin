@@ -126,7 +126,7 @@ export class EditProfile extends Component {
                                             <div className=" form-group row">
                                                 <label htmlFor="uid" className="col-sm-2 col-form-label">UID</label>
                                                 <div className="col-sm-10">
-                                                    <input readOnly className="form-control-plaintext" type="text" id="uid" value={this.state.uid} />
+                                                    <input readOnly className="form-control-plaintext" type="text" id="uid" value={this.props.firebase.auth.uid} />
                                                 </div>
                                             </div>
                                         </div>
