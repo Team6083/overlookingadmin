@@ -6,6 +6,7 @@ import UserProfile from './composment/pages/profile/UserProfile';
 import roles from './constant/userRoles';
 
 import UserList from './composment/pages/user/userList'
+import AppList from './composment/pages/app/appList'
 
 const routes = [
     {
@@ -51,7 +52,14 @@ const routes = [
     {
         path: '/users',
         component: UserList,
-        name: 'Users'
+        name: 'Users',
+        exact: true
+    },
+    {
+        path: '/apps',
+        component: AppList,
+        name: 'Apps',
+        exact: true
     }
 ];
 

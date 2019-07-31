@@ -5,22 +5,21 @@ import { compose } from 'redux'
 import MUIDataTable from 'mui-datatables'
 import { firestoreConnect } from 'react-redux-firebase'
 
-export class userList extends Component {
+export class appList extends Component {
     state = {
-        users: [],
-
+        apps: [],
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.users != this.props.users) {
-            let users = newProps.users;
+        if (newProps.apps != this.props.apps) {
+            let apps = newProps.apps;
 
-            users.forEach((val, i) => {
-                let user = {
+            apps.forEach((val, i) => {
+                let app = {
                     ...val
                 }
 
-                const keys = Object.keys(user);
+                const keys = Object.keys(app);
 
                 let col = this.columns;
                 col = col.filter((val) => {
@@ -34,12 +33,12 @@ export class userList extends Component {
                     }
                 });
 
-                users[i] = val;
+                apps[i] = val;
             })
 
             this.setState({
                 ...this.state,
-                users: users
+                apps: apps
             })
         }
     }
@@ -47,11 +46,11 @@ export class userList extends Component {
     columns = [
         {
             name: 'id',
-            label: 'UID',
+            label: 'ID',
             options: {
                 filter: false,
                 customBodyRender: (value, tableMeta, updateValue) => {
-                    return (<span><Link to={"/users/editUser?uid=" + value}>{value}</Link></span>)
+                    return (<span><Link to={"/apps/editApp?id=" + value}>{value}</Link></span>)
                 }
             },
         },
@@ -63,40 +62,11 @@ export class userList extends Component {
             }
         },
         {
-            name: "username",
-            label: "UserName",
+            name: "description",
+            label: "Drscription",
             options: {
                 filter: false,
-            }
-        },
-        {
-            name: "email",
-            label: "Email",
-            options: {
-                filter: false,
-            }
-        },
-        {
-            name: "displayName",
-            label: "Disp. Name",
-            options: {
-                filter: false,
-            }
-        },
-        {
-            name: "birthday",
-            label: "Birth Day",
-            options: {
-                filter: false,
-                display: false
-            }
-        },
-        {
-            name: 'address',
-            label: "Address",
-            options: {
-                filter: false,
-                display: false
+                sort: false
             }
         }
     ]
@@ -114,8 +84,8 @@ export class userList extends Component {
         return (
             <div className="container">
                 <MUIDataTable
-                    title={"User List"}
-                    data={this.state.users}
+                    title={"App List"}
+                    data={this.state.apps}
                     columns={this.columns}
                     options={this.options}
                 />
@@ -134,12 +104,12 @@ const mapStateToProps = (state) => {
     return {
         firebase: state.firebase,
         auth: state.auth,
-        users: state.firestore.ordered.users
+        apps: state.firestore.ordered.apps
     }
 }
 
 export default compose(connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
-        { collection: 'users' }
+        { collection: 'apps' }
     ])
-)(userList)
+)(appList)
