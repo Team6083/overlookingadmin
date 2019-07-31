@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <div className="mb-3"><NavBar links={routes} /></div>
-        <div className="container">
+        <div className="container" id="notificationArea">
           <NotificationArea />
         </div>
         <PageRouter routes={routes} />

@@ -7,16 +7,17 @@ import { MDBIcon } from 'mdbreact'
 import { saveUser } from '../../../store/actions/userActions'
 import FullScreenLoadingModal from '../../layout/FullScreenLoadingModal'
 
-export class EditProfile extends Component {
+export class editUserProfile extends Component {
 
     componentDidMount() {
+        // load props to state when component mount
+
         this.setState({
             profile: {
                 ...this.state.profile,
-                ...this.props.profile
+                ...this.props.user
             },
-            emailVerified: this.props.firebase.auth.emailVerified,
-            uid: this.props.firebase.auth.uid
+            emailVerified: this.props.firebase.auth.emailVerified
         })
     }
 
@@ -27,27 +28,13 @@ export class EditProfile extends Component {
             ...this.state
         }
 
-        if (newProps.profile !== this.props.profile) {
+        if (newProps.user !== this.props.user) {
             newState = {
                 ...newState,
                 profile: {
                     ...this.state.profile,
-                    ...newProps.profile
+                    ...newProps.user
                 }
-            }
-        }
-
-        if (newProps.firebase !== this.props.firebase && !this.props.targetUID) {
-            newState = {
-                ...newState,
-                uid: newProps.firebase.auth.uid
-            }
-        }
-
-        if (this.props.targetUID) {
-            newState = {
-                ...newState,
-                uid: this.props.targetUID
             }
         }
 
@@ -71,19 +58,16 @@ export class EditProfile extends Component {
                 id: '',
                 school: '',
                 type: ''
-            },
-            isLoaded: false
+            }
         },
         defaultSchool: "CMSH",
         requireParent: false,
         //TODO: get options from setting
-        emailVerified: null,
-        uid: ""
+        emailVerified: null
     }
 
     handleChange = (e) => {
         let ids = e.target.id.split('.');
-
         let data = e.target.value;
 
         for (let i = ids.length - 1; i >= 0; i--) {
@@ -99,13 +83,11 @@ export class EditProfile extends Component {
                 ...data
             }
         })
-
-        //TODO: check old codes
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let uid = this.state.uid;
+        let uid = this.props.targetUID;
         this.props.saveUserProfile(this.state.profile, uid);
     }
 
@@ -119,8 +101,8 @@ export class EditProfile extends Component {
 
     render() {
         return (
-            <div>
-                <FullScreenLoadingModal open={!this.state.profile.isLoaded} />
+            <div className="container">
+                <FullScreenLoadingModal open={this.props.user == undefined} />
                 <div className="row">
                     <div className="col-12 col-lg-10">
                         <form onSubmit={this.handleSubmit} className="mb-5">
@@ -134,7 +116,7 @@ export class EditProfile extends Component {
                                             <div className=" form-group row">
                                                 <label htmlFor="uid" className="col-sm-2 col-form-label">UID</label>
                                                 <div className="col-sm-10">
-                                                    <input readOnly className="form-control-plaintext" type="text" id="uid" value={this.state.uid} />
+                                                    <input readOnly className="form-control-plaintext" type="text" id="uid" value={this.props.targetUID} />
                                                 </div>
                                             </div>
                                         </div>
@@ -149,7 +131,8 @@ export class EditProfile extends Component {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <Link className="col-sm-12 badge badge-primary" to="/profile/editEmail">Click here to change email.</Link>
+                                                {/* FIXME: fix email verified and edit email */}
+                                                <Link className={"col-sm-12 badge badge-primary"} to="/profile/editEmail">Click here to change email.</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -308,12 +291,21 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProp) => {
+    let uid = ownProp.targetUID;
     return {
         firebase: state.firebase,
         auth: state.firebase.auth,
-        profile: state.firebase.profile
+        user: state.firestore.data.users ? state.firestore.data.users[uid] : undefined,
+        editOwn: ownProp.targetUID === state.firebase.auth.uid
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditProfile)
+export default compose(
+    firestoreConnect((props) => {
+        return [
+            { collection: 'users', doc: props.targetUID }
+        ];
+    }),
+    connect(mapStateToProps, mapDispatchToProps)
+)(editUserProfile)

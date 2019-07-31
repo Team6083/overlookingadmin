@@ -6,6 +6,8 @@ import UserProfile from './composment/pages/profile/UserProfile';
 import roles from './constant/userRoles';
 
 import UserList from './composment/pages/user/userList'
+import EditUser from './composment/pages/user/editUser'
+
 import AppList from './composment/pages/app/appList'
 
 const routes = [
@@ -54,6 +56,12 @@ const routes = [
         component: UserList,
         name: 'Users',
         exact: true
+    },
+    {
+        path: '/users/editUser',
+        component: EditUser,
+        name: 'User/EditUser',
+        hideOnNav: true
     },
     {
         path: '/apps',
