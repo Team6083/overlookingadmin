@@ -1,17 +1,30 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Links from './Links'
 
-const NavBar = (props) => {
-    return (
-        <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-            <Link to='/' className='navbar-brand'>Overlooking Admin</Link>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain">
-                <span className="navbar-toggler-icon"></span>
-            </button>
-            <Links links={props.links} />
-        </nav>
-    )
+import { MDBNavbar, MDBNavbarBrand, MDBNavbarToggler } from 'mdbreact'
+
+export class NavBar extends Component {
+
+    state = {
+        isOpen: false
+    };
+
+    toggleCollapse = () => {
+        this.setState({ isOpen: !this.state.isOpen });
+    }
+
+    render() {
+        return (
+            <MDBNavbar color="white" className="fixed-top" light expand="lg">
+                <MDBNavbarBrand>
+                    <Link to='/' className="text-dark"><strong>Overlooking Admin</strong></Link>
+                </MDBNavbarBrand>
+                <MDBNavbarToggler onClick={this.toggleCollapse} />
+                <Links links={this.props.links} open={this.state.isOpen} />
+            </MDBNavbar>
+        )
+    }
 }
 
-export default NavBar;
+export default NavBar

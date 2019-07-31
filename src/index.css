@@ -12,3 +12,7 @@ code {
 }
 
 .material-icons { vertical-align: bottom !important; }
+
+#userBar{
+    margin: auto 0px;
+}

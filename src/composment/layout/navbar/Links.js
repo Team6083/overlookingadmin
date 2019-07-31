@@ -5,6 +5,8 @@ import { signOut } from '../../../store/actions/authActions'
 import roles from '../../../constant/userRoles'
 import permissionCheck from '../../auth/permissionCheck';
 
+import { MDBCollapse, MDBNavbarNav, MDBNavItem, MDBNavLink } from 'mdbreact'
+
 const Links = (props) => {
     const { links, auth, profile } = props
     const userLogined = auth.uid ? true : false
@@ -13,9 +15,9 @@ const Links = (props) => {
         const { path, name, permission, hideOnNav } = route;
         const renderLink = () => {
             return (
-                <li className="nav-item" key={i}>
-                    <NavLink className="nav-link" to={path}>{name}</NavLink>
-                </li>
+                <MDBNavItem key={i}>
+                    <MDBNavLink className="nav-link" to={path}>{name}</MDBNavLink>
+                </MDBNavItem>
             )
         }
 
@@ -39,31 +41,34 @@ const Links = (props) => {
     }
 
     return (
-        <div className="collapse navbar-collapse" id="navbarMain">
-            <ul className="navbar-nav mr-auto">
+        <MDBCollapse isOpen={props.open} navbar>
+            <MDBNavbarNav left>
                 {linkList}
-            </ul>
-            {
-                userLogined ?
+            </MDBNavbarNav>
 
-                    <div id="userBar">
-                        <span className="navbar-text text-dark mr-md-2" id="navUser">
-                            <NavLink to="/profile">
-                                <span className="badge badge-pill badge-primary" style={{ fontSize: '90%' }}>
-                                    {getName()}
-                                </span>
-                            </NavLink>
-                        </span>
-                    </div>
-                    :
-                    null
-            }
-            {
-                userLogined ?
-                    <button className="btn btn-outline-dark" onClick={props.signOut}>Sign out</button>
-                    : null
-            }
-        </div>
+            <MDBNavbarNav right>
+                {
+                    userLogined ?
+
+                        <div id="userBar">
+                            <span className="navbar-text text-dark mr-md-2" id="navUser">
+                                <NavLink to="/profile">
+                                    <span className="badge badge-pill badge-primary" style={{ fontSize: '90%' }}>
+                                        {getName()}
+                                    </span>
+                                </NavLink>
+                            </span>
+                        </div>
+                        :
+                        null
+                }
+                {
+                    userLogined ?
+                        <button className="btn btn-outline-dark" onClick={props.signOut}>Sign out</button>
+                        : null
+                }
+            </MDBNavbarNav>
+        </MDBCollapse>
     )
 }
 
