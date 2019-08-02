@@ -7,8 +7,12 @@ export class editUser extends Component {
         search = search.split('?')[1];
         let uid = search.split('=')[1];
         return (
-            <div>
-                <EditUserProfile targetUID={uid} />
+            <div className="container">
+                <div className="col-lg-1"></div>
+                <div className="col-12 col-lg-10">
+                    <h4>Edit Profile</h4>
+                    <EditUserProfile targetUID={uid} />
+                </div>
             </div>
         )
     }
