@@ -105,7 +105,7 @@ export class userList extends Component {
         filterType: 'multiselect',
         responsive: 'scroll',
         onRowClick: (rowData, rowMeta) => {
-            console.log(rowMeta.rowIndex, rowData);
+            // console.log(rowMeta.rowIndex, rowData);
         }
     };
 
