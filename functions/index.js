@@ -21,6 +21,3 @@ exports.removeUserFromDatabase = functions.auth.user().onDelete((user) => {
   return admin.firestore().collection("users").doc(uid).delete();
 });
 
-const apiServer = require('./api/server')(admin);
-
-exports.graphql = functions.https.onRequest(apiServer);
