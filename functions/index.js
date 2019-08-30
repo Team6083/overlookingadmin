@@ -21,3 +21,6 @@ exports.removeUserFromDatabase = functions.auth.user().onDelete((user) => {
   return admin.firestore().collection("users").doc(uid).delete();
 });
 
+const oAuthAPI = require('./oauth2/index')
+
+exports.oAuth = functions.https.onRequest(oAuthAPI);
