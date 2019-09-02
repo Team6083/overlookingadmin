@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const firestore = require('firebase-admin').firestore();
 // const db = require('./database');
 
 // const User = db.User;
@@ -8,53 +9,39 @@ const _ = require('lodash');
 // const OAuthRefreshToken = db.OAuthRefreshToken;
 
 function getAccessToken(accessToken) {
-    // console.log('getAccessToken', accessToken);
-    // return OAuthAccessToken
-    //     .findOne({ accessToken })
-    //     .populate('user')
-    //     .populate('client')
-    //     .lean()
-    //     .then(dbToken => dbToken)
-    //     .catch((err) => {
-    //         console.log('getAccessToken - Err: ', err);
-    //     });
+    console.log('getAccessToken', accessToken);
+    firestore.collection('OAuthAccessToken').where('accessToken', '==', accessToken).get().then((docSnap) => {
+        return docSnap.docs[0].data();
+    }).then(dbToken => dbToken).catch((err) => {
+        console.log('getAccessToken - Err: ', err);
+    });
 }
 
 function getClient(clientId, clientSecret) {
-    // console.log('getClient', clientId, clientSecret);
-    // const query = { clientId };
-    // if (clientSecret) {
-    //     query.clientSecret = clientSecret;
-    // }
+    console.log('getClient', clientId, clientSecret);
 
-    // return OAuthClient
-    //     .findOne(query)
-    //     .lean()
-    //     .then(client => (client ? Object.assign(client, { id: clientId }) : null))
-    //     .catch((err) => {
-    //         console.log('getClient - Err: ', err);
-    //     });
-
-    return {
-        id: "123",
-        grants: ['authorization_code'], // the list of OAuth2 grant types that should be allowed
-        redirectUris: ["http://localhost:5000/overlooking-admin/us-central1/oAuth/callback"]
-    }
+    firestore.collection('OAuthClient').where('clientId', clientId).get()
+        .then((docSnap) => {
+            return docSnap.docs[0].data();
+        })
+        .then(client => (client ? Object.assign(client, { id: clientId }) : null))
+        .catch((err) => {
+            console.log('getClient - Err: ', err);
+        });
 }
 
 
 function getUser(username, password) {
     // // TODO: Hashing of password
-    // return User
-    //     .findOne({ username, password })
-    //     .lean()
-    //     .then(user => user)
-    //     .catch((err) => {
-    //         console.log('getUser - Err: ', err);
-    //     });
-    return {
-        id: 412
-    };
+
+    firestore.collection('OAuthUsers').where('username', '==', username).where('password', '==', password).get()
+        .then((docSnap) => {
+            return docSnap.docs[0].get();
+        })
+        .then(user => user)
+        .catch((err) => {
+            console.log('getUser - Err: ', err);
+        });
 }
 
 function revokeAuthorizationCode(code) {
