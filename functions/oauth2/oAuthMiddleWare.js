@@ -14,8 +14,9 @@ const admin = require('firebase-admin');
 */
 const authenticateHandler = {
     handle(req, res) {
-
-        return req.session.user;
+        return {
+            id: 412
+        };
     }
 }
 
@@ -32,7 +33,7 @@ module.exports.token = (req, res, next) => {
 };
 
 module.exports.authorize = (req, res, next) => {
-    console.log(req.method);
+    console.log(req.method, req.url);
     if (req.method === "GET") {
         const authToken = req.query["auth_token"];
         res.render("authentication.ejs", {

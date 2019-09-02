@@ -34,6 +34,13 @@ function getClient(clientId, clientSecret) {
     //     .catch((err) => {
     //         console.log('getClient - Err: ', err);
     //     });
+
+    return {
+        clientId: "123",
+        clientSecret: "456",
+        grants: ['authorization_code'], // the list of OAuth2 grant types that should be allowed
+        redirectUris: ["http://localhost:5000/overlooking-admin/us-central1/oAuth/callback"]
+    }
 }
 
 
@@ -46,9 +53,13 @@ function getUser(username, password) {
     //     .catch((err) => {
     //         console.log('getUser - Err: ', err);
     //     });
+    return {
+        id: 412
+    };
 }
 
 function revokeAuthorizationCode(code) {
+    console.log('rvCode', code);
     // console.log('revokeAuthorizationCode', code);
     // return OAuthAuthorizationCode.findOneAndRemove({ code: code.code })
     //     .then(removed => !!removed)
@@ -91,6 +102,8 @@ function saveToken(token, client, user) {
     //     });
 }
 
+let authCode = {};
+
 function getAuthorizationCode(code) {
     // console.log('getAuthorizationCode', code);
     // return OAuthAuthorizationCode
@@ -111,6 +124,8 @@ function getAuthorizationCode(code) {
     //     .catch((err) => {
     //         console.log('getAuthorizationCode - Err: ', err);
     //     });
+    console.log('aCode', authCode);
+    return authCode;
 }
 
 function saveAuthorizationCode(code, client, user) {
@@ -131,6 +146,9 @@ function saveAuthorizationCode(code, client, user) {
     //     .catch((err) => {
     //         console.log('saveAuthorizationCode - Err: ', err);
     //     });
+    console.log('code', code);
+    authCode = code;
+    return code;
 }
 
 function getUserFromClient(client) {
