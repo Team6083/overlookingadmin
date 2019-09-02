@@ -1,10 +1,12 @@
 const express = require("express");
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
+const path = require('path');
 const authRoutes = require('./routes');
 
 const app = express();
+
+app.set("views", path.join(__dirname, "./views"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

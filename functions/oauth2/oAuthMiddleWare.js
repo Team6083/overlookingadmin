@@ -5,6 +5,8 @@ const oauth = new OauthServer({ model });
 const Request = OauthServer.Request;
 const Response = OauthServer.Response;
 
+const admin = require('firebase-admin');
+
 /*
   TODO: Use this authenticateHandler to authenticate the user by other means
   https://github.com/oauthjs/node-oauth2-server/issues/314
@@ -12,10 +14,10 @@ const Response = OauthServer.Response;
 */
 const authenticateHandler = {
     handle(req, res) {
-        // get authenticated user or return falsy value, e.g.:
+
         return req.session.user;
     }
-};
+}
 
 module.exports.token = (req, res, next) => {
     const request = new Request(req);
@@ -30,15 +32,23 @@ module.exports.token = (req, res, next) => {
 };
 
 module.exports.authorize = (req, res, next) => {
+    console.log(req.method);
+    if (req.method === "GET") {
+        const authToken = req.query["auth_token"];
+        res.render("authentication.ejs", {
+            authToken: authToken,
+            // projectId: process.env.GCLOUD_PROJECT,
+            projectId: "overlooking-admin",
+            // projectApiKey: Configuration.instance.project_apikey,
+            projectApiKey: "AIzaSyDqGsMpbk3UFSDgJdBTp6hx1jGtZMFAvjg"
+        })
+        return
+    }
+
     const request = new Request(req);
     const response = new Response(res);
     const options = {
-        authenticateHandler: {
-            handle: (data) => {
-                // return a user
-                return {};
-            }
-        }
+        authenticateHandler
     }
 
     oauth.authorize(request, response, options).then((authorizationCode) => {
