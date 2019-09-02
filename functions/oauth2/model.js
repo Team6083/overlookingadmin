@@ -36,8 +36,7 @@ function getClient(clientId, clientSecret) {
     //     });
 
     return {
-        clientId: "123",
-        clientSecret: "456",
+        id: "123",
         grants: ['authorization_code'], // the list of OAuth2 grant types that should be allowed
         redirectUris: ["http://localhost:5000/overlooking-admin/us-central1/oAuth/callback"]
     }
@@ -60,6 +59,7 @@ function getUser(username, password) {
 
 function revokeAuthorizationCode(code) {
     console.log('rvCode', code);
+    return true;
     // console.log('revokeAuthorizationCode', code);
     // return OAuthAuthorizationCode.findOneAndRemove({ code: code.code })
     //     .then(removed => !!removed)
@@ -102,8 +102,6 @@ function saveToken(token, client, user) {
     //     });
 }
 
-let authCode = {};
-
 function getAuthorizationCode(code) {
     // console.log('getAuthorizationCode', code);
     // return OAuthAuthorizationCode
@@ -124,8 +122,21 @@ function getAuthorizationCode(code) {
     //     .catch((err) => {
     //         console.log('getAuthorizationCode - Err: ', err);
     //     });
-    console.log('aCode', authCode);
-    return authCode;
+
+    return {
+        expiresAt: new Date(1667432967000),
+        client: {
+            id: "123",
+            clientSecret: 456,
+            grants: ['authorization_code'], // the list of OAuth2 grant types that should be allowed
+            redirectUris: ["http://localhost:5000/overlooking-admin/us-central1/oAuth/callback"]
+        },
+        code: 'bca8cc83483424cca4f867433f00e273bdc90935',
+        user: {
+            id: 412
+        },
+        scope: undefined
+    };
 }
 
 function saveAuthorizationCode(code, client, user) {
@@ -146,8 +157,6 @@ function saveAuthorizationCode(code, client, user) {
     //     .catch((err) => {
     //         console.log('saveAuthorizationCode - Err: ', err);
     //     });
-    console.log('code', code);
-    authCode = code;
     return code;
 }
 
@@ -190,6 +199,7 @@ function validateScope(user, client, scope) {
     // // console.log('validateScope', user, client, scope);
     // // return (user.scope === scope && client.scope === scope && scope !== null) ? scope: false;
     // return '*';
+    return true;
 }
 
 /**
