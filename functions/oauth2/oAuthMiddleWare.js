@@ -15,7 +15,7 @@ const admin = require('firebase-admin');
 const authenticateHandler = {
     handle(req, res) {
         return {
-            id: 412
+            _id: "412"
         };
     }
 }

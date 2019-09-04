@@ -11,19 +11,25 @@ const firestore = require('firebase-admin').firestore();
 function getAccessToken(accessToken) {
     // populate 'user', 'client'
     console.log('getAccessToken', accessToken);
-    firestore.collection('OAuthAccessToken').where('accessToken', '==', accessToken).get().then((docSnap) => {
-        return docSnap.docs[0].data();
-    }).then(dbToken => dbToken).catch((err) => {
-        console.log('getAccessToken - Err: ', err);
-    });
+    return firestore.collection('OAuthAccessToken').where('accessToken', '==', accessToken).get()
+        .then((docSnap) => {
+            return docSnap.docs[0].data();
+        })
+        .then((dbToken) => {
+            dbToken.accessTokenExpiresAt = dbToken.accessTokenExpiresAt.toDate();
+            return dbToken;
+        })
+        .catch((err) => {
+            console.log('getAccessToken - Err: ', err);
+        });
 }
 
 function getClient(clientId, clientSecret) {
     console.log('getClient', clientId, clientSecret);
 
-    firestore.collection('OAuthClient').where('clientId', clientId).get()
+    return firestore.collection('OAuthClient').where('clientId', '==', clientId).get()
         .then((docSnap) => {
-            return docSnap.docs[0].data();
+            return docSnap.docs[0] ? Object.assign(docSnap.docs[0].data(), { _id: docSnap.docs[0].id }) : null;
         })
         .then(client => (client ? Object.assign(client, { id: clientId }) : null))
         .catch((err) => {
@@ -35,7 +41,7 @@ function getClient(clientId, clientSecret) {
 function getUser(username, password) {
     // // TODO: Hashing of password
 
-    firestore.collection('OAuthUsers').where('username', '==', username).where('password', '==', password).get()
+    return firestore.collection('OAuthUsers').where('username', '==', username).where('password', '==', password).get()
         .then((docSnap) => {
             return docSnap.docs[0].data();
         })
@@ -47,9 +53,13 @@ function getUser(username, password) {
 
 function revokeAuthorizationCode(code) {
     console.log('revokeAuthorizationCode', code);
-    return firestore.collection('OAuthAuthorizationCode').where('code', '==', code).get()
+    return firestore.collection('OAuthAuthorizationCode').where('code', '==', code.code).get()
         .then((docSnap) => {
-            return docSnap.docs[0].ref.delete();
+
+            return docSnap.docs[0] ? docSnap.docs[0].ref.delete() : null;
+        })
+        .then(() => {
+            return true;
         })
         .catch((err) => {
             console.log('revokeAuthorizationCode - Err: ', err);
@@ -100,10 +110,41 @@ function getAuthorizationCode(code) {
         .then((docSnap) => {
             return docSnap.docs[0] ? docSnap.docs[0].data() : false;
         })
+        .then((code) => {
+            return new Promise((resolve, reject) => {
+                firestore.collection('OAuthClient').doc(code.client).get()
+                    .then((docSnap) => {
+                        return docSnap.exists ? docSnap.data() : null;
+                    })
+                    .then((client) => {
+                        code.client = client;
+                        resolve(code);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
+            });
+        })
+        .then((code) => {
+            return new Promise((resolve, reject) => {
+                console.log(code.user);
+                firestore.collection('OAuthUsers').doc(code.user).get()
+                    .then((docSnap) => {
+                        return docSnap.exists ? Object.assign(docSnap.data(), { _id: docSnap.id }) : null;
+                    })
+                    .then((user) => {
+                        code.user = user;
+                        resolve(code);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
+            });
+        })
         .then((authCodeModel) => {
             // populate 'user', 'client'
-            console.log(authCodeModel.user);
-
+            console.log(authCodeModel);
+            authCodeModel.expiresAt = authCodeModel.expiresAt.toDate();
             const extendedClient = Object.assign(authCodeModel.client, { id: authCodeModel.client.clientId });
             return Object.assign(authCodeModel, { client: extendedClient });
         })
@@ -164,8 +205,10 @@ It will also be required to provide scopes for both user and client
 */
 // eslint-disable-next-line
 function validateScope(user, client, scope) {
-    console.log('validateScope', user, client, scope);
-    return (user.scope === scope && client.scope === scope && scope !== null) ? scope : false;
+    return scope;
+    //TODO: finish scope check
+    // console.log('validateScope', user, client, scope);
+    // return (user.scope === scope && client.scope === scope && scope !== null) ? scope : false;
 }
 
 /**
@@ -179,9 +222,14 @@ function verifyScope(token, scope) {
 }
 
 function getUserByID(id) {
-    // return User.findById(id).then((doc) => {
-    //     return doc;
-    // })
+    console.log('getUserByID', id);
+    return firestore.collection('OAuthUsers').doc(id).get()
+        .then((docSnap) => {
+            docSnap.exists ? Object.assign(docSnap.data(), { _id: docSnap.id }) : false;
+        })
+        .catch((err) => {
+            console.log('getUserFromClient - Err: ', err);
+        });
 }
 
 module.exports = {
