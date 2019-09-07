@@ -162,7 +162,7 @@ function saveAuthorizationCode(code, client, user) {
             client: client._id,
             code: code.authorizationCode,
             user: user._id,
-            scope: code.scope
+            scope: code.scope | ""
         })
         .then(() => ({ // TODO: Consider changing expiresAt to expiresIn (seconds)
             authorizationCode: code.authorizationCode,
@@ -205,7 +205,7 @@ It will also be required to provide scopes for both user and client
 */
 // eslint-disable-next-line
 function validateScope(user, client, scope) {
-    return scope;
+    return scope | "1";
     //TODO: finish scope check
     // console.log('validateScope', user, client, scope);
     // return (user.scope === scope && client.scope === scope && scope !== null) ? scope : false;
@@ -218,7 +218,7 @@ It will also be required to provide scopes for both user and client (They should
 // eslint-disable-next-line
 function verifyScope(token, scope) {
     console.log('verifyScope', token, scope);
-    return token.scope === scope;
+    return token.scope === scope || true;
 }
 
 function getUserByID(id) {
