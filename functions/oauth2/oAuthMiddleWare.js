@@ -6,6 +6,7 @@ const Request = OauthServer.Request;
 const Response = OauthServer.Response;
 
 const admin = require('firebase-admin');
+const getUserByID = require('./model').getUserByID;
 
 /*
   TODO: Use this authenticateHandler to authenticate the user by other means
@@ -14,9 +15,13 @@ const admin = require('firebase-admin');
 */
 const authenticateHandler = {
     handle(req, res) {
-        return {
-            _id: "412"
-        };
+        return admin.auth().verifyIdToken(req.body.id_token)
+            .then((decodedIdToken) => {
+                return getUserByID(decodedIdToken.uid);
+            })
+            .catch((err) => {
+                console.log('handle - Err: ', err);
+            });;
     }
 }
 

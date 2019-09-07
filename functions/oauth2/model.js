@@ -127,8 +127,7 @@ function getAuthorizationCode(code) {
         })
         .then((code) => {
             return new Promise((resolve, reject) => {
-                console.log(code.user);
-                firestore.collection('OAuthUsers').doc(code.user).get()
+                firestore.collection('users').doc(code.user).get()
                     .then((docSnap) => {
                         return docSnap.exists ? Object.assign(docSnap.data(), { _id: docSnap.id }) : null;
                     })
@@ -142,8 +141,6 @@ function getAuthorizationCode(code) {
             });
         })
         .then((authCodeModel) => {
-            // populate 'user', 'client'
-            console.log(authCodeModel);
             authCodeModel.expiresAt = authCodeModel.expiresAt.toDate();
             const extendedClient = Object.assign(authCodeModel.client, { id: authCodeModel.client.clientId });
             return Object.assign(authCodeModel, { client: extendedClient });
@@ -187,11 +184,42 @@ function getUserFromClient(client) {
 function getRefreshToken(refreshToken) {
     console.log('getRefreshToken', refreshToken);
 
-    return firestore.collection('OAuthRefreshToken').where('refreshToken', '>', refreshToken).get()
+    return firestore.collection('OAuthRefreshToken').where('refreshToken', '==', refreshToken).get()
         .then((docSnap) => {
             return docSnap.docs[0] ? docSnap.docs[0].data() : false;
         })
+        .then((code) => {
+            return new Promise((resolve, reject) => {
+                firestore.collection('OAuthClient').doc(code.client).get()
+                    .then((docSnap) => {
+                        return docSnap.exists ? docSnap.data() : null;
+                    })
+                    .then((client) => {
+                        code.client = client;
+                        resolve(code);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
+            });
+        })
+        .then((code) => {
+            return new Promise((resolve, reject) => {
+                firestore.collection('users').doc(code.user).get()
+                    .then((docSnap) => {
+                        return docSnap.exists ? Object.assign(docSnap.data(), { _id: docSnap.id }) : null;
+                    })
+                    .then((user) => {
+                        code.user = user;
+                        resolve(code);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
+            });
+        })
         .then((dbToken) => {
+            dbToken.refreshTokenExpiresAt = dbToken.refreshTokenExpiresAt.toDate();
             const extendedClient = Object.assign(dbToken.client, { id: dbToken.client.clientId });
             return Object.assign(dbToken, { client: extendedClient });
         }).catch((err) => {
@@ -223,9 +251,9 @@ function verifyScope(token, scope) {
 
 function getUserByID(id) {
     console.log('getUserByID', id);
-    return firestore.collection('OAuthUsers').doc(id).get()
+    return firestore.collection('users').doc(id).get()
         .then((docSnap) => {
-            docSnap.exists ? Object.assign(docSnap.data(), { _id: docSnap.id }) : false;
+            return docSnap.exists ? Object.assign(docSnap.data(), { _id: docSnap.id }) : false;
         })
         .catch((err) => {
             console.log('getUserFromClient - Err: ', err);
