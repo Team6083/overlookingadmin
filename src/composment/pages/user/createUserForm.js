@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { signUp, createUser } from '../../../store/actions/authActions'
 
 export class createUserForm extends Component {
 
@@ -18,10 +20,14 @@ export class createUserForm extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.signUp(this.state);
+        console.log(this.state);
+        console.log(this.props.mode);
+        this.props.createUser(this.state);
+        // this.props.signUp(this.state);
     }
 
     render() {
+        const { mode } = this.props;
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
@@ -42,8 +48,10 @@ export class createUserForm extends Component {
                     <input className="form-control" type="email" id="email" onChange={this.handleChange} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input className="form-control" type="password" id="password" onChange={this.handleChange} />
+                    <div className={mode === "signUp" ? "" : "d-none"}>
+                        <label htmlFor="password">Password</label>
+                        <input className="form-control" type={mode === "signUp" ? "password" : "hidden"} id="password" onChange={this.handleChange} autoComplete="new-password" />
+                    </div>
                 </div>
                 <div className="form-group">
                     <button className="btn btn-primary btn-block">Sign Up</button>
@@ -53,4 +61,11 @@ export class createUserForm extends Component {
     }
 }
 
-export default createUserForm
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signUp: (newUser) => dispatch(signUp(newUser)),
+        createUser: (newUser) => dispatch(createUser(newUser))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(createUserForm)

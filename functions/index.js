@@ -13,6 +13,44 @@ exports.addUserToDataBase = functions.auth.user().onCreate((user) => {
   return admin.firestore().collection("users").doc(user.uid).set(userData, { merge: true });
 });
 
+exports.createUser = functions.https.onCall((data, context) => {
+  if (!context.auth) {
+    return appFuncErr("unauthorized");
+  }
+
+  const uid = context.auth.uid;
+
+  return admin.auth().getUser(uid)
+    .then((user) => {
+      //TODO: Update permisson check
+      if (!user.customClaims || !user.customClaims.admin) {
+        return appFuncErr("no-permission");
+      }
+
+      return admin.auth().createUser({
+        email: data.email,
+        password: data.password
+      });
+    })
+    .then((userRecord) => {
+      return userRecord;
+    });
+});
+
+function appFuncErr(message) {
+  return {
+    ok: false,
+    err: message
+  }
+}
+
+function appFuncOk(body) {
+  return {
+    ok: true,
+    body
+  }
+}
+
 exports.removeUserFromDatabase = functions.auth.user().onDelete((user) => {
   // Get the uid of the deleted user.
   var uid = user.uid;

@@ -37,6 +37,18 @@ const authReducer = (state = initState, action) => {
                 ...state,
                 authError: action.err.message
             };
+        case 'CREATE_USER_SUCCESS':
+            console.log('Create user success');
+            return {
+                ...state,
+                authError: null
+            };
+        case 'CREATE_USER_ERROR':
+            console.log('Create user error', action.err);
+            return {
+                ...state,
+                authError: action.err.message
+            };
         case 'FIREBASE_UI_SUCCESS':
             console.log('Firebase ui success', action.authResult);
             return {

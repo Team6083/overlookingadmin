@@ -36,6 +36,23 @@ export const saveNewUser = (uid, newUser) => {
     }
 }
 
+export const createUser = (newUser) => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase();
+
+        const createUser = firebase.functions().httpsCallable("createUser");
+        createUser(newUser).then((result) => {
+            console.log(result.data);
+            if (!result.data.ok) {
+                dispatch({ type: 'CREATE_USER_ERROR', err: new Error(result.data.err) });
+                return;
+            }
+            dispatch(saveNewUser(result.data.user.uid, newUser));
+            dispatch({ type: 'CREATE_USER_SUCCESS' });
+        }).catch((err) => dispatch({ type: 'CREATE_USER_ERROR', err }));
+    }
+}
+
 export const signUp = (newUser) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firebase = getFirebase();
