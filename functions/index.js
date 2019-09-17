@@ -33,7 +33,7 @@ exports.createUser = functions.https.onCall((data, context) => {
       });
     })
     .then((userRecord) => {
-      return userRecord;
+      return appFuncOk(userRecord);
     });
 });
 
@@ -59,6 +59,9 @@ exports.removeUserFromDatabase = functions.auth.user().onDelete((user) => {
   return admin.firestore().collection("users").doc(uid).delete();
 });
 
-const oAuthAPI = require('./oauth2/index')
+const oAuthAPI = require('./oauth2/index');
 
 exports.oAuth = functions.https.onRequest(oAuthAPI);
+
+const overlookingAdminAPI = require('./api/index');
+exports.api = functions.https.onRequest(overlookingAdminAPI);
