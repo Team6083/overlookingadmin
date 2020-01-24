@@ -11,7 +11,7 @@ export class appList extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.apps != this.props.apps) {
+        if (newProps.apps !== this.props.apps) {
             let apps = newProps.apps;
 
             apps.forEach((val, i) => {

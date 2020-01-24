@@ -12,7 +12,7 @@ export class userList extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.users != this.props.users) {
+        if (newProps.users !== this.props.users) {
             let users = newProps.users;
 
             users.forEach((val, i) => {

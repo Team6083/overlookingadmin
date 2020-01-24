@@ -120,7 +120,7 @@ export class LinkAccount extends Component {
                                 {
                                     accountProviders[providerId] ?
                                         <div>
-                                            <a href="#" className="badge badge-primary badge-pill" onClick={() => {
+                                            <a href="./" className="badge badge-primary badge-pill" onClick={() => {
                                                 this.toggleCollapse(providerId);
                                             }}>
                                                 Linked with {accountProviders[providerId].displayName}

@@ -102,7 +102,7 @@ export class editUserProfile extends Component {
     render() {
         return (
             <div>
-                <FullScreenLoadingModal open={this.props.user == undefined} />
+                <FullScreenLoadingModal open={this.props.user === undefined} />
                 <form onSubmit={this.handleSubmit} className="mb-5">
                     <fieldset disabled={this.props.disabled}>
                         <div className="row">

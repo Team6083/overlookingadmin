@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MDBBadge, MDBBtn } from 'mdbreact'
+import { MDBBadge } from 'mdbreact'
 
 export class ErrorPage extends Component {
 
