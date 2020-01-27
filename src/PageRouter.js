@@ -2,18 +2,18 @@ import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import permissionCheck from './composment/auth/permissionCheck'
-import roles from './constant/userRoles'
+import { roles } from './constant/userRoles'
 import NotFound from './composment/layout/errPages/NotFound'
 
 class PageRouter extends Component {
     render() {
-        const {routes, perfix} = this.props;
+        const { routes, perfix } = this.props;
 
         let role = roles.UnAuth;
         if (this.props.auth.uid !== undefined) {
             role = roles.Student;
         }
-        
+
         return (
             <Switch>
                 {routes.map((route, i) => {
@@ -21,7 +21,7 @@ class PageRouter extends Component {
                     return (
                         <Route
                             key={i}
-                            path={perfix?(perfix+path):path}
+                            path={perfix ? (perfix + path) : path}
                             exact={exact}
                             render={(routeProps) => {
                                 if (permission) {

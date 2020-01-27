@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { signOut } from '../../../store/actions/authActions'
-import roles from '../../../constant/userRoles'
+import { roles } from '../../../constant/userRoles'
 import permissionCheck from '../../auth/permissionCheck';
 
 import { MDBCollapse, MDBNavbarNav, MDBNavItem, MDBNavLink } from 'mdbreact'

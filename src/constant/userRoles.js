@@ -1,4 +1,4 @@
-const roles = {
+export const roles = {
     SystemAdmin: "SA",
     Admin: "A",
     Teacher: "T",
@@ -7,5 +7,3 @@ const roles = {
     Guest: "G",
     UnAuth: "UA"
 }
-
-export default roles

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { signUp, createUser } from '../../../store/actions/authActions'
+import { createUser } from '../../../store/actions/authActions'
 
 export class createUserForm extends Component {
 
@@ -23,7 +23,6 @@ export class createUserForm extends Component {
         console.log(this.state);
         console.log(this.props.mode);
         this.props.createUser(this.state);
-        // this.props.signUp(this.state);
     }
 
     render() {
@@ -63,7 +62,6 @@ export class createUserForm extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signUp: (newUser) => dispatch(signUp(newUser)),
         createUser: (newUser) => dispatch(createUser(newUser))
     }
 }

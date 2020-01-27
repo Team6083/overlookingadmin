@@ -1,4 +1,4 @@
-const permissionCheck = function(permission, role) {
+const permissionCheck = function (permission, role) {
     let { allow, deny } = permission;
 
     // console.log('allow', allow);

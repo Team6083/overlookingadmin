@@ -3,7 +3,7 @@ import SignIn from './composment/auth/Signin';
 import SignUp from './composment/auth/Signup';
 import UserProfile from './composment/pages/profile/UserProfile';
 
-import roles from './constant/userRoles';
+import { roles } from './constant/userRoles';
 
 import UserList from './composment/pages/user/userList';
 import EditUser from './composment/pages/user/editUser';
